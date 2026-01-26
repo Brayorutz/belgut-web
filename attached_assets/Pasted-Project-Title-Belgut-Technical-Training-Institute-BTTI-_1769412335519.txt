@@ -1,0 +1,320 @@
+Project Title: Belgut Technical Training Institute (BTTI) Official Website
+
+Objective:
+Design and develop a modern, responsive, and user-friendly official website for Belgut Technical Training Institute (BTTI) that showcases academic programmes, campuses, admissions, news, tenders, and institutional information while making it very easy for prospective students to apply for courses online.
+
+1. Branding & Design
+
+Primary Colors:
+
+Green (Education, growth, sustainability)
+
+Gold (Excellence, prestige, success)
+
+Style:
+
+Clean, professional, modern technical institution look
+
+Mobile-first, fully responsive
+
+High accessibility and fast loading
+
+Typography:
+
+Clear, readable fonts suitable for education websites
+
+Imagery:
+
+Use institutional photos, campus images, workshops, laboratories
+
+Include Board of Directors imagery (uploaded separately)
+
+2. Website Structure & Pages
+A. Home Page
+
+Hero section with:
+
+Institute name and slogan
+
+Strong call-to-action buttons: Apply Now, Download Prospectus
+
+Flashing / Scrolling Urgent Updates Bar (for notices, deadlines, closures, announcements)
+
+Quick links to:
+
+Courses
+
+Online Application
+
+Campuses
+
+News & Events
+
+Highlights:
+
+CBET Modular Training & Dual Training
+
+Industry partnerships & attachments
+
+Latest News & Upcoming Events preview
+
+B. About Us
+
+Overview of Belgut Technical Training Institute
+
+Vision, Mission & Core Values
+
+Board of Directors (with images and titles)
+
+Management & Administration
+
+Attachments & Industrial Linkages
+(Government departments, private companies, industries)
+
+C. Campuses
+
+Dedicated section listing:
+
+Main Campus
+
+Litein Campus
+
+Sosiot Campus
+
+Masarian Campus
+
+Each campus page should include:
+
+Location
+
+Courses offered
+
+Facilities
+
+Contact information
+
+Campus images
+
+D. Academic Departments & Courses
+
+Create a structured Departments page, each with its own sub-page:
+
+Department of Agriculture and Agribusiness
+
+Agriculture and Extension – Levels 5 & 6
+
+Agripreneurship – Levels 4, 5 & 6
+
+General Agriculture – Level 4
+
+Horticulture – Levels 3, 4, 5
+
+Department of Computing and Informatics
+
+Computer Science – Level 6
+
+Information & Communication Technology – Levels 4, 5 & 6
+
+Library and Information Management – Level 6
+
+Library and Information Studies – Level 5
+
+Records and Archive Management
+
+Department of Electrical and Electronics Engineering
+
+Electrical Engineering – Levels 5 & 6
+
+Electrical Installation Technology – Levels 3 & 4
+
+Solar Photovoltaic (PV) Installation – Levels 3, 4 & 5
+
+Department of Building and Civil Engineering
+
+Civil Engineering – Level 6
+
+Masonry – Levels 3 & 4
+
+Plumbing – Levels 3, 4 & 5
+
+Water Engineering Technology – Level 6
+
+Department of Hospitality and Institutional Management
+
+Catering & Accommodation Management – Level 6
+
+Catering & Accommodation Operations – Level 5
+
+Food & Beverage Management – Level 6 (Pathways A & B)
+
+Food & Beverage Operations – Level 5 (Pathways A & B)
+
+Food Production (Cookery) – Levels 3 & 4
+
+Food & Beverage Service (Waiter) – Levels 3 & 4
+
+Department of Cosmetology
+
+Cosmetology – Levels 3, 4, 5 & 6
+
+Department of Mechanical and Automotive Engineering
+
+Automotive Mechanic – Levels 3 & 4
+
+Automotive Mechatronics Technology – Level 6
+
+Automotive Technology – Levels 5 & 6
+
+Welding – Levels 3, 4, 5 & 6
+
+Department of Business and Liberal Studies
+
+Business Management – Levels 5 & 6
+
+Counselling – Levels 5 & 6
+
+Human Resource Management – Levels 5 & 6
+
+Office Administration – Levels 5 & 6
+
+Office Assistance – Level 4
+
+Social Work – Levels 5 & 6
+
+Department of Applied and Health Sciences
+
+Analytical Chemistry Technology – Level 6
+
+Applied Biology – Level 6
+
+Nutrition & Dietetics – Levels 5 & 6
+
+Science Laboratory Technology – Levels 5 & 6
+
+Nurse Aid Course – Level 5
+
+Department of Media and Journalism
+
+Broadcast Journalism – Level 6
+
+Digital Journalism – Level 6
+
+Film Production – Levels 5 & 6
+
+Department of Fashion Design
+
+Fashion Design – Levels 3, 4, 5 & 6
+
+Each course page should show:
+
+Course description
+
+Level
+
+Duration
+
+Entry requirements
+
+Career opportunities
+
+Apply Now button
+
+3. Admissions Page
+
+Easy Online Application Form
+
+Entry Requirements:
+
+Level 6: KCSE Mean Grade C- or Pass in Level 5 (6–8 terms)
+
+Level 5: KCSE Mean Grade D or Pass in Level 4 (5 terms)
+
+Level 4: KCSE Mean Grade D- (3 terms)
+
+Level 3: Prior Learning in relevant field (1 term)
+
+Downloadable admission letters and forms
+
+Mode of Study:
+
+CBET Modular Training
+
+Dual Training
+
+4. Recognition of Prior Learning (RPL)
+
+Dedicated page listing:
+
+Automotive Engineering
+
+Welding & Fabrication
+
+Catering & Accommodation
+
+Building & Masonry Works
+
+Panel Beating & Spray Painting
+
+Automobile Wiring & Fitting
+
+General Agriculture
+
+Customer Care
+
+5. News & Events
+
+News articles
+
+Event calendar
+
+Image galleries
+
+Announcements archive
+
+6. Tenders Page
+
+Current tenders
+
+Download tender documents
+
+Tender submission deadlines
+
+Archived tenders
+
+7. Downloads
+
+Prospectus
+
+Application forms
+
+Fee structures
+
+Academic calendars
+
+Policies and notices
+
+8. Contact Us
+
+Contact form
+
+Phone numbers
+
+Email addresses
+
+Campus locations with maps
+
+Social media links
+
+9. Technical Requirements
+
+CMS-based (easy to update content)
+
+SEO optimized
+
+Secure (HTTPS)
+
+Admin panel for updates
+
+Accessibility friendly
+
+Scalable for future growth

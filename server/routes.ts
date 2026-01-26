@@ -155,6 +155,8 @@ async function seedDatabase() {
       description: "Civil engineering, masonry, and plumbing.",
       imageUrl: "https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Civil Engineering – Level 6", departmentId: deptBuild.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Structural and civil engineering." });
+    await storage.createCourse({ title: "Masonry – Level 3 & 4", departmentId: deptBuild.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D-", description: "Professional masonry training." });
 
     // 5. Hospitality
     const deptHosp = await storage.createDepartment({
@@ -162,6 +164,7 @@ async function seedDatabase() {
       description: "Catering, accommodation, and food management.",
       imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Catering and Accommodation Management – Level 6", departmentId: deptHosp.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Hospitality management." });
 
     // 6. Cosmetology
     const deptCosm = await storage.createDepartment({
@@ -169,6 +172,7 @@ async function seedDatabase() {
       description: "Beauty therapy and hairdressing.",
       imageUrl: "https://images.unsplash.com/photo-1522335789183-b15c272ff753?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Cosmetology – Level 6", departmentId: deptCosm.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Professional beauty therapy." });
 
     // 7. Mechanical
     const deptMech = await storage.createDepartment({
@@ -176,6 +180,7 @@ async function seedDatabase() {
       description: "Automotive technology and welding.",
       imageUrl: "https://images.unsplash.com/photo-1530046339160-ce3e5b0c7a2f?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Automotive Technology – Levels 5 & 6", departmentId: deptMech.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Automotive engineering." });
 
     // 8. Business
     const deptBus = await storage.createDepartment({
@@ -183,6 +188,7 @@ async function seedDatabase() {
       description: "Management, HR, and social work.",
       imageUrl: "https://images.unsplash.com/photo-1454165833767-027ffec95c1a?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Human Resource Management – Levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "HR training." });
 
     // 9. Applied Sciences
     const deptSci = await storage.createDepartment({
@@ -190,6 +196,7 @@ async function seedDatabase() {
       description: "Chemistry, biology, and nutrition.",
       imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9d3a35263?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Applied Biology – Level 6", departmentId: deptSci.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Biological sciences." });
 
     // 10. Media
     const deptMedia = await storage.createDepartment({
@@ -197,6 +204,7 @@ async function seedDatabase() {
       description: "Broadcasting and digital journalism.",
       imageUrl: "https://images.unsplash.com/photo-1521474672612-452935520a28?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Broadcast journalism – Level 6", departmentId: deptMedia.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Media studies." });
 
     // 11. Fashion
     const deptFashion = await storage.createDepartment({
@@ -204,6 +212,8 @@ async function seedDatabase() {
       description: "Professional fashion design and tailoring.",
       imageUrl: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Fashion Design – Level 6", departmentId: deptFashion.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Fashion design." });
+
   }
 
   const downloads = await storage.getDownloads();

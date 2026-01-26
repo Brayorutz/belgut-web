@@ -5,12 +5,28 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
+// Page Imports
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import Academics from "@/pages/Academics";
+import Admissions from "@/pages/Admissions";
+import Contact from "@/pages/Contact";
+import News from "@/pages/News";
+
 function Router() {
   return (
     <Switch>
-      {/* Add pages below */}
-      {/* <Route path="/" component={Home}/> */}
-      {/* Fallback to 404 */}
+      <Route path="/" component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/academics" component={Academics} />
+      <Route path="/admissions" component={Admissions} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/news" component={News} />
+      {/* 
+        Add Tenders and Downloads later if needed, 
+        or map them to a 'Coming Soon' or specific components.
+        For now, let's keep it complete with core pages.
+      */}
       <Route component={NotFound} />
     </Switch>
   );

@@ -41,29 +41,43 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative bg-gray-900 text-white py-24 lg:py-32 overflow-hidden">
-        {/* Background Image Overlay */}
+      <section className="relative h-[600px] lg:h-[700px] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/90 to-transparent z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
-            alt="Students on campus" 
-            className="w-full h-full object-cover opacity-60"
-          />
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent z-10" />
+          <motion.div 
+            className="flex h-full w-[200%]"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ 
+              duration: 20, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+          >
+            <img 
+              src="/images/hero/hero1.webp" 
+              alt="BTTI Campus" 
+              className="w-1/2 h-full object-cover"
+            />
+            <img 
+              src="/images/hero/hero2.webp" 
+              alt="BTTI Building" 
+              className="w-1/2 h-full object-cover"
+            />
+          </motion.div>
         </div>
 
-        <div className="container-custom relative z-20">
+        <div className="container-custom relative h-full flex items-center z-20">
           <div className="max-w-2xl">
             <motion.div initial="initial" animate="animate" variants={staggerContainer}>
               <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-accent text-sm font-medium mb-6">
                 <Award className="w-4 h-4" /> Center of Excellence
               </motion.div>
               
-              <motion.h1 variants={fadeIn} className="font-display font-bold text-5xl lg:text-7xl leading-[1.1] mb-6">
+              <motion.h1 variants={fadeIn} className="font-display font-bold text-5xl lg:text-7xl leading-[1.1] mb-6 text-white">
                 Skills for <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Industrialization</span>
               </motion.h1>
               
-              <motion.p variants={fadeIn} className="text-lg text-gray-300 mb-8 leading-relaxed max-w-xl">
+              <motion.p variants={fadeIn} className="text-lg text-gray-200 mb-8 leading-relaxed max-w-xl">
                 Belgut Technical Training Institute empowers the next generation of innovators with practical, industry-relevant skills for a dynamic world.
               </motion.p>
               
@@ -73,9 +87,9 @@ export default function Home() {
                     Apply Now
                   </Button>
                 </Link>
-                <Link href="/downloads">
+                <Link href="/service-charters">
                   <Button size="lg" variant="outline" className="border-white/30 hover:bg-white/10 text-white h-12 px-8 rounded-full backdrop-blur-sm">
-                    Download Prospectus
+                    Our Charters
                   </Button>
                 </Link>
               </motion.div>

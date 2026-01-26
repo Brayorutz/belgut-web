@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowRight, BookOpen, Award, Users, Calendar, ArrowUpRight, GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
@@ -50,53 +50,54 @@ export default function Home() {
         </div>
       </div>
 
-        <div className="relative h-[600px] lg:h-[700px] overflow-hidden group">
-          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent z-10" />
-            <AnimatePresence mode="wait">
-              <motion.img 
-                key={currentHero}
-                src={heroImages[currentHero].src} 
-                alt={heroImages[currentHero].alt} 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </AnimatePresence>
-          </div>
+      {/* Hero Section */}
+      <section className="relative h-[600px] lg:h-[700px] overflow-hidden group">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent z-10" />
+          <AnimatePresence mode="wait">
+            <motion.img 
+              key={currentHero}
+              src={heroImages[currentHero].src} 
+              alt={heroImages[currentHero].alt} 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </AnimatePresence>
+        </div>
 
-          {/* Hero Controls */}
-          <div className="container-custom relative h-full flex items-center justify-between pointer-events-none z-30">
-            <button 
-              onClick={prevHero}
-              className="pointer-events-auto p-3 rounded-full bg-black/30 text-white hover:bg-primary hover:text-white transition-all backdrop-blur-sm border border-white/10"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-8 h-8" />
-            </button>
-            <button 
-              onClick={nextHero}
-              className="pointer-events-auto p-3 rounded-full bg-black/30 text-white hover:bg-primary hover:text-white transition-all backdrop-blur-sm border border-white/10"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-8 h-8" />
-            </button>
-          </div>
+        {/* Hero Controls */}
+        <div className="container-custom relative h-full flex items-center justify-between pointer-events-none z-30 px-4">
+          <button 
+            onClick={prevHero}
+            className="pointer-events-auto p-3 rounded-full bg-black/30 text-white hover:bg-primary hover:text-white transition-all backdrop-blur-sm border border-white/10"
+            aria-label="Previous image"
+          >
+            <ChevronLeft className="w-8 h-8" />
+          </button>
+          <button 
+            onClick={nextHero}
+            className="pointer-events-auto p-3 rounded-full bg-black/30 text-white hover:bg-primary hover:text-white transition-all backdrop-blur-sm border border-white/10"
+            aria-label="Next image"
+          >
+            <ChevronRight className="w-8 h-8" />
+          </button>
+        </div>
 
-          <div className="container-custom absolute inset-0 flex items-center z-20">
-            <div className="max-w-2xl px-4 md:px-0">
+        <div className="container-custom absolute inset-0 flex items-center z-20">
+          <div className="max-w-2xl px-4 md:px-0">
             <motion.div initial="initial" animate="animate" variants={staggerContainer}>
               <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-accent text-sm font-medium mb-6">
                 <Award className="w-4 h-4" /> Center of Excellence
               </motion.div>
               
-              <motion.h1 variants={fadeIn} className="font-display font-bold text-5xl lg:text-7xl leading-[1.1] mb-6 text-white">
+              <motion.h1 variants={fadeIn} className="font-display font-bold text-5xl lg:text-7xl leading-[1.1] mb-6 text-white text-shadow-lg">
                 Skills for <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Industrialization</span>
               </motion.h1>
               
-              <motion.p variants={fadeIn} className="text-lg text-gray-200 mb-8 leading-relaxed max-w-xl">
+              <motion.p variants={fadeIn} className="text-lg text-gray-100 mb-8 leading-relaxed max-w-xl font-medium drop-shadow-md">
                 Belgut Technical Training Institute empowers the next generation of innovators with practical, industry-relevant skills for a dynamic world.
               </motion.p>
               
@@ -107,7 +108,7 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/service-charters">
-                  <Button size="lg" variant="outline" className="border-white/30 hover:bg-white/10 text-white h-12 px-8 rounded-full backdrop-blur-sm">
+                  <Button size="lg" variant="outline" className="border-white/40 hover:bg-white/20 text-white h-12 px-8 rounded-full backdrop-blur-sm shadow-md font-semibold">
                     Our Charters
                   </Button>
                 </Link>

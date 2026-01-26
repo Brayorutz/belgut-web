@@ -114,6 +114,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Partners Auto-Scroll */}
+      <section className="py-12 bg-gray-50 border-y border-gray-100 overflow-hidden">
+        <div className="container-custom mb-8 text-center">
+          <span className="text-primary font-bold uppercase tracking-wider text-xs">Our Partners & Regulators</span>
+        </div>
+        <div className="relative flex overflow-x-hidden">
+          <div className="animate-marquee flex items-center gap-12 whitespace-nowrap py-4">
+            {[
+              { name: "TVETA", logo: "/images/partners/tveta.png" },
+              { name: "KUCCPS", logo: "/images/partners/kuccps.png" },
+              { name: "NTSA", logo: "/images/partners/ntsa.png" },
+              { name: "Vision 2030", logo: "/images/partners/vision2030.png" },
+              { name: "NG-CDF", logo: "/images/partners/ngcdf.png" },
+              { name: "NITA", logo: "/images/partners/nita.png" },
+            ].map((partner, i) => (
+              <div key={i} className="flex items-center gap-4 grayscale hover:grayscale-0 transition-all duration-300">
+                <img src={partner.logo} alt={partner.name} className="h-16 w-auto object-contain" />
+              </div>
+            ))}
+            {/* Duplicate for seamless loop */}
+            {[
+              { name: "TVETA", logo: "/images/partners/tveta.png" },
+              { name: "KUCCPS", logo: "/images/partners/kuccps.png" },
+              { name: "NTSA", logo: "/images/partners/ntsa.png" },
+              { name: "Vision 2030", logo: "/images/partners/vision2030.png" },
+              { name: "NG-CDF", logo: "/images/partners/ngcdf.png" },
+              { name: "NITA", logo: "/images/partners/nita.png" },
+            ].map((partner, i) => (
+              <div key={`dup-${i}`} className="flex items-center gap-4 grayscale hover:grayscale-0 transition-all duration-300">
+                <img src={partner.logo} alt={partner.name} className="h-16 w-auto object-contain" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* About Section Preview */}
       <section className="py-20 lg:py-24 bg-gray-50">
         <div className="container-custom">

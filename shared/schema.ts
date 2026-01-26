@@ -71,6 +71,7 @@ export const downloads = pgTable("downloads", {
 export const applications = pgTable("applications", {
   id: serial("id").primaryKey(),
   courseId: integer("course_id").references(() => courses.id),
+  campusId: integer("campus_id").references(() => campuses.id),
   applicantName: text("applicant_name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),

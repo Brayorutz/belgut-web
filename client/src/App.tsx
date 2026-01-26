@@ -13,12 +13,14 @@ import Admissions from "@/pages/Admissions";
 import Contact from "@/pages/Contact";
 import News from "@/pages/News";
 import ServiceCharters from "@/pages/ServiceCharters";
+import Campuses from "@/pages/Campuses";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
+      <Route path="/campuses" component={Campuses} />
       <Route path="/service-charters" component={ServiceCharters} />
       <Route path="/academics" component={Academics} />
       <Route path="/admissions" component={Admissions} />

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation } from "wouter";
-import { useCourses, useCreateApplication } from "@/hooks/use-content";
+import { useCourses, useCreateApplication, useCampuses } from "@/hooks/use-content";
 import { insertApplicationSchema, type InsertApplication } from "@shared/schema";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -17,6 +17,7 @@ import { Loader2, CheckCircle, Download } from "lucide-react";
 export default function Admissions() {
   const [location] = useLocation();
   const { data: courses } = useCourses();
+  const { data: campuses } = useCampuses();
   const { mutate, isPending } = useCreateApplication();
   const { toast } = useToast();
 
@@ -32,6 +33,7 @@ export default function Admissions() {
       phone: "",
       kcseGrade: "",
       courseId: preSelectedCourseId ? parseInt(preSelectedCourseId) : undefined,
+      campusId: undefined,
     },
   });
 
@@ -226,6 +228,31 @@ export default function Admissions() {
                       )}
                     />
                   </div>
+
+                  <FormField
+                    control={form.control}
+                    name="campusId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Preferred Campus</FormLabel>
+                        <Select onValueChange={(val) => field.onChange(parseInt(val))}>
+                          <FormControl>
+                            <SelectTrigger className="h-12">
+                              <SelectValue placeholder="Select Campus" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {campuses?.map((campus) => (
+                              <SelectItem key={campus.id} value={campus.id.toString()}>
+                                {campus.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <Button 
                     type="submit" 

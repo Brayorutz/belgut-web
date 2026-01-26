@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
-import { ArrowRight, BookOpen, Award, Users, Calendar, ArrowUpRight, GraduationCap } from "lucide-react";
+import { ArrowRight, BookOpen, Award, Users, Calendar, ArrowUpRight, GraduationCap, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNews } from "@/hooks/use-content";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,6 +26,15 @@ const staggerContainer = {
 export default function Home() {
   const { data: newsItems } = useNews();
   const latestNews = newsItems?.slice(0, 3) || [];
+  const [currentHero, setCurrentHero] = useState(0);
+  
+  const heroImages = [
+    { src: "/images/hero/hero1.webp", alt: "BTTI Campus" },
+    { src: "/images/hero/hero2.webp", alt: "BTTI Building" }
+  ];
+
+  const nextHero = () => setCurrentHero((prev) => (prev + 1) % heroImages.length);
+  const prevHero = () => setCurrentHero((prev) => (prev - 1 + heroImages.length) % heroImages.length);
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
@@ -40,34 +50,43 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative h-[600px] lg:h-[700px] overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent z-10" />
-          <motion.div 
-            className="flex h-full w-[200%]"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ 
-              duration: 20, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-          >
-            <img 
-              src="/images/hero/hero1.webp" 
-              alt="BTTI Campus" 
-              className="w-1/2 h-full object-cover"
-            />
-            <img 
-              src="/images/hero/hero2.webp" 
-              alt="BTTI Building" 
-              className="w-1/2 h-full object-cover"
-            />
-          </motion.div>
-        </div>
+        <div className="relative h-[600px] lg:h-[700px] overflow-hidden group">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent z-10" />
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentHero}
+                src={heroImages[currentHero].src} 
+                alt={heroImages[currentHero].alt} 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8 }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </AnimatePresence>
+          </div>
 
-        <div className="container-custom relative h-full flex items-center z-20">
-          <div className="max-w-2xl">
+          {/* Hero Controls */}
+          <div className="container-custom relative h-full flex items-center justify-between pointer-events-none z-30">
+            <button 
+              onClick={prevHero}
+              className="pointer-events-auto p-3 rounded-full bg-black/30 text-white hover:bg-primary hover:text-white transition-all backdrop-blur-sm border border-white/10"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="w-8 h-8" />
+            </button>
+            <button 
+              onClick={nextHero}
+              className="pointer-events-auto p-3 rounded-full bg-black/30 text-white hover:bg-primary hover:text-white transition-all backdrop-blur-sm border border-white/10"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-8 h-8" />
+            </button>
+          </div>
+
+          <div className="container-custom absolute inset-0 flex items-center z-20">
+            <div className="max-w-2xl px-4 md:px-0">
             <motion.div initial="initial" animate="animate" variants={staggerContainer}>
               <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-accent text-sm font-medium mb-6">
                 <Award className="w-4 h-4" /> Center of Excellence

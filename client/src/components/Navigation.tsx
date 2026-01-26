@@ -37,6 +37,7 @@ export function Navigation() {
       ]
     },
     { name: "Academics", href: "/academics" },
+    { name: "Campuses", href: "/campuses" },
     { name: "Admissions", href: "/admissions" },
     { name: "News & Events", href: "/news" },
     { name: "Tenders", href: "/tenders" },

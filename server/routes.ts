@@ -131,8 +131,10 @@ async function seedDatabase() {
       description: "Training in modern agricultural practices and agribusiness.",
       imageUrl: "https://images.unsplash.com/photo-1625246333195-551e5a20298d?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Agriculture and Extension – Levels 5 & 6", departmentId: deptAgri.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Agricultural extension services training." });
-    await storage.createCourse({ title: "Agripreneurship – Levels 4, 5 & 6", departmentId: deptAgri.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Entrepreneurship in agriculture." });
+    await storage.createCourse({ title: "Agriculture and Extension – Levels 5 & 6", departmentId: deptAgri.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Agricultural extension services training." });
+    await storage.createCourse({ title: "Agripreneurship – Levels 4, 5 & 6", departmentId: deptAgri.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Entrepreneurship in agriculture." });
+    await storage.createCourse({ title: "General Agriculture – Level 4", departmentId: deptAgri.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "General agricultural training." });
+    await storage.createCourse({ title: "Horticulture – Levels 3, 4, 5", departmentId: deptAgri.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Horticultural studies." });
 
     // 2. Computing
     const deptComp = await storage.createDepartment({
@@ -140,7 +142,11 @@ async function seedDatabase() {
       description: "Cutting-edge ICT training and computer science.",
       imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Computer Science – Level 6", departmentId: deptComp.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Computer systems and software development." });
+    await storage.createCourse({ title: "Computer Science – Level 6", departmentId: deptComp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Computer systems and software development." });
+    await storage.createCourse({ title: "Information And Communication Technology – Levels 4, 5 & 6", departmentId: deptComp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "ICT training." });
+    await storage.createCourse({ title: "Library and Information Management – Level 6", departmentId: deptComp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Information management." });
+    await storage.createCourse({ title: "Library and Information Studies – Level 5", departmentId: deptComp.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Library studies." });
+    await storage.createCourse({ title: "Records and Archive Management", departmentId: deptComp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Archival studies." });
 
     // 3. Electrical
     const deptElec = await storage.createDepartment({
@@ -148,6 +154,9 @@ async function seedDatabase() {
       description: "Electrical engineering and installation technology.",
       imageUrl: "https://images.unsplash.com/photo-1517420728644-80695f269a21?auto=format&fit=crop&q=80"
     });
+    await storage.createCourse({ title: "Electrical Engineering – Levels 5 & 6", departmentId: deptElec.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Electrical engineering studies." });
+    await storage.createCourse({ title: "Electrical Installation technology – Levels 3 & 4", departmentId: deptElec.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Electrical installation." });
+    await storage.createCourse({ title: "Solar Photovoltaic (PV) Installation – Levels 3, 4 & 5", departmentId: deptElec.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Solar installation." });
 
     // 4. Building
     const deptBuild = await storage.createDepartment({
@@ -155,8 +164,10 @@ async function seedDatabase() {
       description: "Civil engineering, masonry, and plumbing.",
       imageUrl: "https://images.unsplash.com/photo-1503387762-592dea58ef21?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Civil Engineering – Level 6", departmentId: deptBuild.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Structural and civil engineering." });
-    await storage.createCourse({ title: "Masonry – Level 3 & 4", departmentId: deptBuild.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D-", description: "Professional masonry training." });
+    await storage.createCourse({ title: "Civil Engineering – Level 6", departmentId: deptBuild.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Structural and civil engineering." });
+    await storage.createCourse({ title: "Masonry – Level 3 & 4", departmentId: deptBuild.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Professional masonry training." });
+    await storage.createCourse({ title: "Plumbing – Level 3, 4 & 5", departmentId: deptBuild.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Plumbing services." });
+    await storage.createCourse({ title: "Water Engineering Technology – Level 6", departmentId: deptBuild.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Water resource engineering." });
 
     // 5. Hospitality
     const deptHosp = await storage.createDepartment({
@@ -164,7 +175,14 @@ async function seedDatabase() {
       description: "Catering, accommodation, and food management.",
       imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Catering and Accommodation Management – Level 6", departmentId: deptHosp.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Hospitality management." });
+    await storage.createCourse({ title: "Catering and Accommodation Management – Level 6", departmentId: deptHosp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Hospitality management." });
+    await storage.createCourse({ title: "Catering and Accommodation Operations – Level 5", departmentId: deptHosp.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Catering operations." });
+    await storage.createCourse({ title: "Food and Beverage Management (Pathway A) - Level 6", departmentId: deptHosp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "F&B management." });
+    await storage.createCourse({ title: "Food and Beverage Management (Pathway B) - Level 6", departmentId: deptHosp.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "F&B management." });
+    await storage.createCourse({ title: "Food and Beverage Operations (Pathway A) - Level 5", departmentId: deptHosp.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "F&B operations." });
+    await storage.createCourse({ title: "Food and Beverage Operations (Pathway B) - Level 5", departmentId: deptHosp.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "F&B operations." });
+    await storage.createCourse({ title: "Food and Beverage Production (Cookery) – Levels 3 & 4", departmentId: deptHosp.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Cookery training." });
+    await storage.createCourse({ title: "Food and Beverage Service (Waiter) - Levels 3 & 4", departmentId: deptHosp.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Waitstaff services." });
 
     // 6. Cosmetology
     const deptCosm = await storage.createDepartment({
@@ -172,7 +190,10 @@ async function seedDatabase() {
       description: "Beauty therapy and hairdressing.",
       imageUrl: "https://images.unsplash.com/photo-1522335789183-b15c272ff753?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Cosmetology – Level 6", departmentId: deptCosm.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Professional beauty therapy." });
+    await storage.createCourse({ title: "Cosmetology – Level 6", departmentId: deptCosm.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Advanced cosmetology." });
+    await storage.createCourse({ title: "Cosmetology – Level 5", departmentId: deptCosm.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Cosmetology operations." });
+    await storage.createCourse({ title: "Cosmetology – Level 4", departmentId: deptCosm.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Basic cosmetology." });
+    await storage.createCourse({ title: "Cosmetology – Level 3", departmentId: deptCosm.id, level: "Level 3", duration: "1 term", requirements: "Prior Learning in relevant field", description: "Introductory cosmetology." });
 
     // 7. Mechanical
     const deptMech = await storage.createDepartment({
@@ -180,7 +201,10 @@ async function seedDatabase() {
       description: "Automotive technology and welding.",
       imageUrl: "https://images.unsplash.com/photo-1530046339160-ce3e5b0c7a2f?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Automotive Technology – Levels 5 & 6", departmentId: deptMech.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Automotive engineering." });
+    await storage.createCourse({ title: "Automotive Mechanic – Levels 3 & 4", departmentId: deptMech.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Auto repair services." });
+    await storage.createCourse({ title: "Automotive Mechatronics Technology – Level 6", departmentId: deptMech.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Auto mechatronics." });
+    await storage.createCourse({ title: "Automotive Technology – Levels 5 & 6", departmentId: deptMech.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Automotive engineering." });
+    await storage.createCourse({ title: "Welding – Levels 3, 4, 5 & 6", departmentId: deptMech.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Welding and fabrication." });
 
     // 8. Business
     const deptBus = await storage.createDepartment({
@@ -188,7 +212,12 @@ async function seedDatabase() {
       description: "Management, HR, and social work.",
       imageUrl: "https://images.unsplash.com/photo-1454165833767-027ffec95c1a?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Human Resource Management – Levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "HR training." });
+    await storage.createCourse({ title: "Business Management – Levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Business studies." });
+    await storage.createCourse({ title: "Counselling – Levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Counselling studies." });
+    await storage.createCourse({ title: "Human Resource Management – Levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "HR training." });
+    await storage.createCourse({ title: "Office Administration – Levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Office management." });
+    await storage.createCourse({ title: "Office Assistance – Level 4", departmentId: deptBus.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Secretarial services." });
+    await storage.createCourse({ title: "Social Work – levels 5 & 6", departmentId: deptBus.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Social services." });
 
     // 9. Applied Sciences
     const deptSci = await storage.createDepartment({
@@ -196,7 +225,11 @@ async function seedDatabase() {
       description: "Chemistry, biology, and nutrition.",
       imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9d3a35263?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Applied Biology – Level 6", departmentId: deptSci.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Biological sciences." });
+    await storage.createCourse({ title: "Analytical Chemistry Technology – Level 6", departmentId: deptSci.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Analytical chemistry." });
+    await storage.createCourse({ title: "Applied Biology – Level 6", departmentId: deptSci.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Biological sciences." });
+    await storage.createCourse({ title: "Nutrition and Dietetics – Levels 5 & 6", departmentId: deptSci.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Nutrition studies." });
+    await storage.createCourse({ title: "Science Laboratory Technology – Levels 5 & 6", departmentId: deptSci.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Laboratory technology." });
+    await storage.createCourse({ title: "Nurse Aid Course - level 5", departmentId: deptSci.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Nursing assistant services." });
 
     // 10. Media
     const deptMedia = await storage.createDepartment({
@@ -204,7 +237,9 @@ async function seedDatabase() {
       description: "Broadcasting and digital journalism.",
       imageUrl: "https://images.unsplash.com/photo-1521474672612-452935520a28?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Broadcast journalism – Level 6", departmentId: deptMedia.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Media studies." });
+    await storage.createCourse({ title: "Broadcast journalism – Level 6", departmentId: deptMedia.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Media studies." });
+    await storage.createCourse({ title: "Digital Journalism – Level 6", departmentId: deptMedia.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Digital media." });
+    await storage.createCourse({ title: "Film Production – Levels 5 & 6", departmentId: deptMedia.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Film production." });
 
     // 11. Fashion
     const deptFashion = await storage.createDepartment({
@@ -212,8 +247,10 @@ async function seedDatabase() {
       description: "Professional fashion design and tailoring.",
       imageUrl: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&q=80"
     });
-    await storage.createCourse({ title: "Fashion Design – Level 6", departmentId: deptFashion.id, level: "Level 6", duration: "6-8 terms", requirements: "KCSE Mean Grade C-", description: "Fashion design." });
-
+    await storage.createCourse({ title: "Fashion Design – Level 6", departmentId: deptFashion.id, level: "Level 6", duration: "6 to 8 terms", requirements: "KCSE Mean Grade C- (Minus)/Pass in Level 5", description: "Advanced fashion design." });
+    await storage.createCourse({ title: "Fashion Design – Level 5", departmentId: deptFashion.id, level: "Level 5", duration: "5 terms", requirements: "KCSE Mean Grade D (Plain)/Pass in Level 4", description: "Fashion operations." });
+    await storage.createCourse({ title: "Fashion Design – Level 4", departmentId: deptFashion.id, level: "Level 4", duration: "3 terms", requirements: "KCSE Mean Grade D- (Minus)", description: "Basic fashion design." });
+    await storage.createCourse({ title: "Fashion Design – Level 3", departmentId: deptFashion.id, level: "Level 3", duration: "1 term", requirements: "Prior Learning in relevant field", description: "Introductory fashion design." });
   }
 
   const downloads = await storage.getDownloads();

@@ -81,16 +81,20 @@ export default function Admissions() {
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-gray-600">
               <div>
-                <strong className="block text-gray-900">Diploma Courses</strong>
-                KCSE Mean Grade C- (Minus) and above.
+                <strong className="block text-gray-900">Level 6 (Diploma)</strong>
+                KCSE Mean Grade C- (Minus) or Pass in Level 5. Duration: 6–8 terms.
               </div>
               <div>
-                <strong className="block text-gray-900">Certificate Courses</strong>
-                KCSE Mean Grade D (Plain) and above.
+                <strong className="block text-gray-900">Level 5 (Certificate)</strong>
+                KCSE Mean Grade D (Plain) or Pass in Level 4. Duration: 5 terms.
               </div>
               <div>
-                <strong className="block text-gray-900">Artisan Courses</strong>
-                KCSE Mean Grade D- (Minus) and below.
+                <strong className="block text-gray-900">Level 4 (Artisan)</strong>
+                KCSE Mean Grade D- (Minus). Duration: 3 terms.
+              </div>
+              <div>
+                <strong className="block text-gray-900">Level 3 (Artisan)</strong>
+                Prior Learning in relevant field. Duration: 1 term.
               </div>
             </CardContent>
           </Card>

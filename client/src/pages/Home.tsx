@@ -197,7 +197,7 @@ export default function Home() {
                     <CardContent className="p-6">
                       <div className="flex items-center gap-2 text-gray-500 text-sm mb-3">
                         <Calendar className="w-4 h-4" />
-                        {new Date(item.date).toLocaleDateString()}
+                        {item.date ? new Date(item.date).toLocaleDateString() : "Date TBD"}
                       </div>
                       <h3 className="font-display font-bold text-xl mb-3 line-clamp-2 group-hover:text-primary transition-colors">
                         {item.title}

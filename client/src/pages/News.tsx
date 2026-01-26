@@ -43,7 +43,7 @@ export default function News() {
                     <Badge variant="secondary">{item.category}</Badge>
                     <span className="text-xs text-gray-500 flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      {new Date(item.date).toLocaleDateString()}
+                      {item.date ? new Date(item.date).toLocaleDateString() : "Date TBD"}
                     </span>
                   </div>
                   <h3 className="font-display font-bold text-xl mb-3 text-gray-900">{item.title}</h3>

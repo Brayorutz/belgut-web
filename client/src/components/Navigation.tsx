@@ -28,7 +28,14 @@ export function Navigation() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "About Us", href: "/about" },
+    { 
+      name: "About Us", 
+      href: "/about",
+      subItems: [
+        { name: "Overview", href: "/about" },
+        { name: "Service Charters", href: "/service-charters" },
+      ]
+    },
     { name: "Academics", href: "/academics" },
     { name: "Admissions", href: "/admissions" },
     { name: "News & Events", href: "/news" },
@@ -92,16 +99,34 @@ export function Navigation() {
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href}
-                className={cn(
-                  "nav-link text-sm font-semibold tracking-wide",
-                  location === link.href ? "text-primary after:w-full" : "text-gray-600"
-                )}
-              >
-                {link.name}
-              </Link>
+              link.subItems ? (
+                <DropdownMenu key={link.name}>
+                  <DropdownMenuTrigger className={cn(
+                    "nav-link text-sm font-semibold tracking-wide flex items-center gap-1",
+                    location.startsWith(link.href) ? "text-primary" : "text-gray-600"
+                  )}>
+                    {link.name} <ChevronDown className="w-4 h-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {link.subItems.map(sub => (
+                      <DropdownMenuItem key={sub.name} asChild>
+                        <Link href={sub.href}>{sub.name}</Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link 
+                  key={link.name} 
+                  href={link.href}
+                  className={cn(
+                    "nav-link text-sm font-semibold tracking-wide",
+                    location === link.href ? "text-primary after:w-full" : "text-gray-600"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
             <Link href="/admissions">
               <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold shadow-lg shadow-accent/20">
@@ -119,35 +144,52 @@ export function Navigation() {
           </button>
         </div>
 
-        {/* Mobile Nav Dropdown */}
-        {isOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg animate-in slide-in-from-top-5">
-            <div className="container-custom py-4 flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.name} 
-                  href={link.href}
-                  className={cn(
-                    "px-4 py-3 rounded-md text-sm font-medium transition-colors",
-                    location === link.href 
-                      ? "bg-primary/5 text-primary" 
-                      : "text-gray-600 hover:bg-gray-50"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="h-px bg-gray-100 my-2" />
-              <Link href="/portal" className="px-4 py-2 text-sm text-gray-600 hover:text-primary">Student Portal</Link>
-              {user ? (
-                 <button onClick={() => logout()} className="px-4 py-2 text-sm text-left text-destructive font-medium">Log Out</button>
-              ) : (
-                <Link href="/api/login" className="px-4 py-2 text-sm text-primary font-medium">Admin Login</Link>
-              )}
-            </div>
-          </div>
-        )}
+                  <div className="lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg animate-in slide-in-from-top-5 max-h-[80vh] overflow-y-auto">
+                    <div className="container-custom py-4 flex flex-col gap-2">
+                      {navLinks.map((link) => (
+                        <div key={link.name}>
+                          {link.subItems ? (
+                            <div className="flex flex-col gap-2">
+                              <div className="px-4 py-3 text-sm font-bold text-primary border-b border-primary/5">{link.name}</div>
+                              {link.subItems.map(sub => (
+                                <Link 
+                                  key={sub.name} 
+                                  href={sub.href}
+                                  className={cn(
+                                    "px-8 py-2 rounded-md text-sm font-medium transition-colors",
+                                    location === sub.href ? "bg-primary/5 text-primary" : "text-gray-600 hover:bg-gray-50"
+                                  )}
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {sub.name}
+                                </Link>
+                              ))}
+                            </div>
+                          ) : (
+                            <Link 
+                              href={link.href}
+                              className={cn(
+                                "px-4 py-3 rounded-md text-sm font-medium transition-colors block",
+                                location === link.href 
+                                  ? "bg-primary/5 text-primary" 
+                                  : "text-gray-600 hover:bg-gray-50"
+                              )}
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {link.name}
+                            </Link>
+                          )}
+                        </div>
+                      ))}
+                      <div className="h-px bg-gray-100 my-2" />
+                      <Link href="/portal" className="px-4 py-2 text-sm text-gray-600 hover:text-primary">Student Portal</Link>
+                      {user ? (
+                        <button onClick={() => logout()} className="px-4 py-2 text-sm text-left text-destructive font-medium">Log Out</button>
+                      ) : (
+                        <Link href="/api/login" className="px-4 py-2 text-sm text-primary font-medium">Admin Login</Link>
+                      )}
+                    </div>
+                  </div>
       </header>
     </>
   );

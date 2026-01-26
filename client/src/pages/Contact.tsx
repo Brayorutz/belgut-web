@@ -148,7 +148,7 @@ export default function Contact() {
                       <FormItem>
                         <FormLabel>Subject</FormLabel>
                         <FormControl>
-                          <Input placeholder="Inquiry about..." {...field} className="bg-gray-50 border-gray-200" />
+                          <Input placeholder="Inquiry about..." {...field} value={field.value || ""} className="bg-gray-50 border-gray-200" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -332,6 +332,27 @@ export class MemStorage implements IStorage {
       });
     }
   }
+
+  async seedTenders() {
+    const existing = await this.getTenders();
+    if (existing.length === 0) {
+      await this.createTender({
+        title: "Invitation to Tender - Proposed completion of two storey for engineering and technology workshop",
+        description: "TENDER NO: KCO/BEL/BELGUT TTI/022/2025/2026",
+        deadline: new Date("2025-06-20"),
+        documentUrl: "attached_assets/NOTICE-ADDENDUM_1769505269041.pdf",
+        status: "Open"
+      });
+
+      await this.createTender({
+        title: "Invitation To Tender For Continous Registration Of Suppliers",
+        description: "Continuous registration of suppliers for various categories",
+        deadline: new Date("2024-06-20"),
+        documentUrl: "attached_assets/Invitation-To-Tender-For-Continous-Registration-Of-Suppliers-F_1769505269042.pdf",
+        status: "Closed"
+      });
+    }
+  }
 }
 
 export const storage = new MemStorage();

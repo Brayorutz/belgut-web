@@ -60,47 +60,45 @@ export default function Contact() {
           {/* Contact Info */}
           <div className="lg:col-span-1 space-y-8">
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-              <h3 className="font-bold text-xl mb-6">Get in Touch</h3>
+              <h3 className="font-bold text-xl mb-6">Our Locations</h3>
               
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <MapPin className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Visit Us</h4>
-                    <p className="text-gray-600 text-sm mt-1">Off Kericho-Litein Road,<br/>Kericho, Kenya</p>
-                  </div>
+              <div className="space-y-8">
+                <div>
+                  <h4 className="font-bold text-primary flex items-center gap-2 mb-2">
+                    <MapPin className="w-4 h-4" /> Main Campus
+                  </h4>
+                  <p className="text-gray-600 text-sm">Off Kericho-Litein Road, Kericho</p>
+                  <p className="text-gray-600 text-sm mt-1">Tel: +254 700 123 456</p>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Phone className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Call Us</h4>
-                    <p className="text-gray-600 text-sm mt-1">+254 700 123 456<br/>+254 722 000 000</p>
-                  </div>
+                <div>
+                  <h4 className="font-bold text-primary flex items-center gap-2 mb-2">
+                    <MapPin className="w-4 h-4" /> Litein Campus
+                  </h4>
+                  <p className="text-gray-600 text-sm">Litein Town</p>
+                  <p className="text-gray-600 text-sm mt-1">Tel: +254 722 000 000</p>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Mail className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Email Us</h4>
-                    <p className="text-gray-600 text-sm mt-1">info@btti.ac.ke<br/>admissions@btti.ac.ke</p>
-                  </div>
+                <div>
+                  <h4 className="font-bold text-primary flex items-center gap-2 mb-2">
+                    <MapPin className="w-4 h-4" /> Sosiot Campus
+                  </h4>
+                  <p className="text-gray-600 text-sm">Sosiot Center</p>
+                  <p className="text-gray-600 text-sm mt-1">Tel: +254 711 000 000</p>
                 </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Clock className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Office Hours</h4>
-                    <p className="text-gray-600 text-sm mt-1">Mon - Fri: 8:00 AM - 5:00 PM<br/>Sat: 9:00 AM - 1:00 PM</p>
-                  </div>
+
+                <div>
+                  <h4 className="font-bold text-primary flex items-center gap-2 mb-2">
+                    <MapPin className="w-4 h-4" /> Masarian Campus
+                  </h4>
+                  <p className="text-gray-600 text-sm">Masarian Area</p>
+                  <p className="text-gray-600 text-sm mt-1">Tel: +254 733 000 000</p>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100">
+                  <h4 className="font-bold text-gray-900 mb-2">General Inquiries</h4>
+                  <p className="text-gray-600 text-sm">Email: info@btti.ac.ke</p>
+                  <p className="text-gray-600 text-sm mt-1">Staff Portal: <a href="https://betti.mycampuscura.com/" target="_blank" rel="noreferrer" className="text-primary hover:underline">betti.mycampuscura.com</a></p>
                 </div>
               </div>
             </div>

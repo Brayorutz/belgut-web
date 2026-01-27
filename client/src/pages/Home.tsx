@@ -135,17 +135,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Video Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-black text-gray-900 mb-4">Experience BTTI</h2>
+            <p className="text-xl text-gray-600">Take a look at the vibrant life and activities at our institution.</p>
+          </div>
+          <div className="aspect-video w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+            <iframe 
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/dNxJZnOMjBE" 
+              title="BTTI Activities Video" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
       {/* Quick Access Grid */}
       <section className="py-12 bg-white relative z-30">
         <div className="container-custom">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { icon: BookOpen, title: "Academic Programs", desc: "Discover our diverse range of courses.", color: "bg-blue-500", href: "/academics" },
-              { icon: GraduationCap, title: "Apply Online", desc: "Start your application process today.", color: "bg-primary", href: "/admissions" },
-              { icon: Calendar, title: "School Calendar", desc: "Important dates and upcoming events.", color: "bg-accent", href: "/news" },
-              { icon: Users, title: "Student Portal", desc: "Access your grades and records.", color: "bg-purple-500", href: "/portal" },
+              { icon: BookOpen, title: "Academic Programs", desc: "Discover our diverse range of courses.", color: "bg-blue-600", href: "/academics" },
+              { icon: GraduationCap, title: "Apply Online", desc: "Start your application process today.", color: "bg-green-600", href: "/admissions" },
+              { icon: Calendar, title: "School Calendar", desc: "Important dates and upcoming events.", color: "bg-yellow-500", href: "/news" },
+              { icon: Users, title: "Student Portal", desc: "Access your grades and records.", color: "bg-blue-800", href: "https://betti.mycampuscura.com/Campuscura/?TenantID=betti#login;TenantID=betti;Apply=false" },
             ].map((item, i) => (
-              <Link href={item.href} key={i}>
+              <a href={item.href} key={i} target={item.href.startsWith('http') ? "_blank" : "_self"} rel="noreferrer">
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -159,7 +179,7 @@ export default function Home() {
                   <h3 className="font-display font-black text-xl mb-3 text-gray-900 group-hover:text-primary transition-colors">{item.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
                 </motion.div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>

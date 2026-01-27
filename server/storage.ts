@@ -303,23 +303,32 @@ export class MemStorage implements IStorage {
     return newInquiry;
   }
 
-  async seedTenders() {
-    const existing = await this.getTenders();
-    if (existing.length === 0) {
-      await this.createTender({
-        title: "Invitation to Tender - Proposed completion of two storey for engineering and technology workshop",
-        description: "TENDER NO: KCO/BEL/BELGUT TTI/022/2025/2026",
-        deadline: new Date("2025-06-20"),
-        documentUrl: "attached_assets/NOTICE-ADDENDUM_1769505269041.pdf",
-        status: "Open"
+  async seedDatabase() {
+    const existingCampuses = await this.getCampuses();
+    if (existingCampuses.length === 0) {
+      await this.createCampus({
+        name: "Main Campus",
+        location: "Belgut",
+        description: "The primary administrative and academic hub.",
+        imageUrl: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80"
       });
-
-      await this.createTender({
-        title: "Invitation To Tender For Continous Registration Of Suppliers",
-        description: "Continuous registration of suppliers for various categories",
-        deadline: new Date("2024-06-20"),
-        documentUrl: "attached_assets/Invitation-To-Tender-For-Continous-Registration-Of-Suppliers-F_1769505269042.pdf",
-        status: "Closed"
+      await this.createCampus({
+        name: "Litein Campus",
+        location: "Litein",
+        description: "Specialized in technical and vocational programs.",
+        imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&q=80"
+      });
+      await this.createCampus({
+        name: "Sosiot Campus",
+        location: "Sosiot",
+        description: "Community-focused learning environment.",
+        imageUrl: "https://images.unsplash.com/photo-1523050335456-c38730b05f4c?auto=format&fit=crop&q=80"
+      });
+      await this.createCampus({
+        name: "Masarian Campus",
+        location: "Masarian",
+        description: "Advancing technical skills in rural sectors.",
+        imageUrl: "https://images.unsplash.com/photo-1498243639351-683636d406d5?auto=format&fit=crop&q=80"
       });
     }
   }
@@ -327,3 +336,4 @@ export class MemStorage implements IStorage {
 
 export const storage = new MemStorage();
 storage.seedTenders();
+storage.seedDatabase();

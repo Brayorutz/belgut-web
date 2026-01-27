@@ -13,6 +13,7 @@ import Admissions from "@/pages/Admissions";
 import Contact from "@/pages/Contact";
 import News from "@/pages/News";
 import Tenders from "@/pages/Tenders";
+import Careers from "@/pages/Careers";
 import ServiceCharters from "@/pages/ServiceCharters";
 import Campuses from "@/pages/Campuses";
 
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/news" component={News} />
       <Route path="/tenders" component={Tenders} />
+      <Route path="/careers" component={Careers} />
       {/* 
         Add Downloads later if needed, 
         or map them to a 'Coming Soon' or specific components.

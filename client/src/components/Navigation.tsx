@@ -41,6 +41,7 @@ export function Navigation() {
     { name: "Admissions", href: "/admissions" },
     { name: "News & Events", href: "/news" },
     { name: "Tenders", href: "/tenders" },
+    { name: "Careers", href: "/careers" },
     { name: "Contact", href: "/contact" },
   ];
 

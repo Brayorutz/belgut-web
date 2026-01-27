@@ -12,6 +12,7 @@ import Academics from "@/pages/Academics";
 import Admissions from "@/pages/Admissions";
 import Contact from "@/pages/Contact";
 import News from "@/pages/News";
+import Tenders from "@/pages/Tenders";
 import ServiceCharters from "@/pages/ServiceCharters";
 import Campuses from "@/pages/Campuses";
 
@@ -26,8 +27,9 @@ function Router() {
       <Route path="/admissions" component={Admissions} />
       <Route path="/contact" component={Contact} />
       <Route path="/news" component={News} />
+      <Route path="/tenders" component={Tenders} />
       {/* 
-        Add Tenders and Downloads later if needed, 
+        Add Downloads later if needed, 
         or map them to a 'Coming Soon' or specific components.
         For now, let's keep it complete with core pages.
       */}

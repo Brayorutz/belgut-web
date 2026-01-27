@@ -289,6 +289,20 @@ export class MemStorage implements IStorage {
     return newApp;
   }
 
+  async createInquiry(inquiry: InsertInquiry): Promise<Inquiry> {
+    const id = this.nextId.inquiries++;
+    const newInquiry: Inquiry = {
+      id,
+      name: inquiry.name,
+      email: inquiry.email,
+      subject: inquiry.subject ?? null,
+      message: inquiry.message,
+      createdAt: new Date(),
+    };
+    this.inquiries.set(id, newInquiry);
+    return newInquiry;
+  }
+
   async seedTenders() {
     const existing = await this.getTenders();
     if (existing.length === 0) {

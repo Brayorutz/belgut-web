@@ -114,12 +114,12 @@ export default function Home() {
               <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-5">
                 <Link href="/admissions">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-bold px-10 h-14 text-xl rounded-full shadow-2xl shadow-primary/40 group">
-                    Get Started <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    Enroll Now <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <Link href="/academics">
                   <Button size="lg" variant="outline" className="border-white/50 bg-white/10 hover:bg-white/30 text-white h-14 px-10 rounded-full backdrop-blur-md shadow-xl font-bold text-lg">
-                    Browse Courses
+                    Explore Courses
                   </Button>
                 </Link>
               </motion.div>
@@ -145,12 +145,36 @@ export default function Home() {
           <div className="aspect-video w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
             <iframe 
               className="w-full h-full"
-              src="https://www.youtube.com/embed/dNxJZnOMjBE" 
+              src="https://www.youtube.com/embed/dNxJZnOMjBE?si=XzJUdUZBQqs-hCNb" 
               title="BTTI Activities Video" 
               frameBorder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
               allowFullScreen
             ></iframe>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-primary text-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-black text-accent">3,500+</div>
+              <div className="text-sm md:text-base font-bold uppercase tracking-widest opacity-80">Students</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-black text-accent">15+</div>
+              <div className="text-sm md:text-base font-bold uppercase tracking-widest opacity-80">Years Excellence</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-black text-accent">120+</div>
+              <div className="text-sm md:text-base font-bold uppercase tracking-widest opacity-80">Expert Staff</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-black text-accent">4</div>
+              <div className="text-sm md:text-base font-bold uppercase tracking-widest opacity-80">Campuses</div>
+            </div>
           </div>
         </div>
       </section>

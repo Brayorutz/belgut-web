@@ -118,7 +118,7 @@ export default function Home() {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
               </div>
-              <div className="bg-primary text-white p-10 flex flex-col gap-4">
+              <div className="bg-secondary text-white p-10 flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
                     <Star className="w-5 h-5 text-white" />
@@ -214,7 +214,7 @@ export default function Home() {
                  { icon: GraduationCap, title: "Collaboration Across Worlds", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do." }
                ].map((item, i) => (
                  <div key={i} className="space-y-4">
-                   <div className="w-12 h-12 rounded-lg bg-destructive text-white flex items-center justify-center shadow-lg shadow-destructive/20">
+                   <div className="w-12 h-12 rounded-lg bg-accent text-accent-foreground flex items-center justify-center shadow-lg shadow-accent/20">
                      <item.icon className="w-6 h-6" />
                    </div>
                    <h4 className="font-black text-sm uppercase tracking-wider text-gray-900">{item.title}</h4>
@@ -251,7 +251,7 @@ export default function Home() {
                     <h4 className="font-black text-xl mb-4 text-gray-900">{item.title}</h4>
                     <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
                   </div>
-                  <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-destructive text-white font-black text-sm shadow-xl shadow-destructive/30">
+                  <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-xl shadow-accent/30">
                     {item.step}
                   </div>
                   <div className="lg:w-1/2" />

@@ -6,12 +6,16 @@
 
 :root {
   /* Green - Primary (Education/Growth) */
-  --primary: 158 64% 32%; /* Emerald-700 approx */
+  --primary: 161 94% 30%; /* Green #059669ish */
   --primary-foreground: 0 0% 100%;
   
   /* Gold - Accent (Excellence/Prestige) */
-  --accent: 43 96% 56%; /* Amber-500 approx */
+  --accent: 45 66% 52%; /* Gold #d4af37ish */
   --accent-foreground: 22 25% 20%;
+
+  /* Blue - Additional brand color */
+  --secondary: 217 91% 60%; 
+  --secondary-foreground: 0 0% 100%;
 
   --background: 210 20% 98%;
   --foreground: 222 47% 11%;

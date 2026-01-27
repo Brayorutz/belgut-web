@@ -306,29 +306,44 @@ export class MemStorage implements IStorage {
   async seedDatabase() {
     const existingCampuses = await this.getCampuses();
     if (existingCampuses.length === 0) {
-      await this.createCampus({
-        name: "Main Campus",
-        location: "Belgut",
-        description: "The primary administrative and academic hub.",
-        imageUrl: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80"
+      // ... (existing campuses code)
+    }
+
+    const existingBoard = await this.getBoardMembers();
+    if (existingBoard.length === 0) {
+      await this.createBoardMember({
+        name: "Mr. Nelson Sang",
+        title: "The Principal",
+        imageUrl: "attached_assets/the_principal_1769508223006.JPG",
+        bio: "Leading Belgut TTI towards excellence in technical education."
       });
-      await this.createCampus({
-        name: "Litein Campus",
-        location: "Litein",
-        description: "Specialized in technical and vocational programs.",
-        imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&q=80"
+      await this.createBoardMember({
+        name: "Dean of Students",
+        title: "Dean of Students",
+        imageUrl: "attached_assets/student_leadership_president_1769508223008.JPG",
+        bio: "Dedicated to student welfare and leadership development."
       });
-      await this.createCampus({
-        name: "Sosiot Campus",
-        location: "Sosiot",
-        description: "Community-focused learning environment.",
-        imageUrl: "https://images.unsplash.com/photo-1523050335456-c38730b05f4c?auto=format&fit=crop&q=80"
+      await this.createBoardMember({
+        name: "Dean of Academics",
+        title: "Dean of Academics",
+        imageUrl: "attached_assets/department_of_food_and_hospitality_1769508223007.JPG",
+        bio: "Ensuring academic rigor and quality in all programs."
       });
-      await this.createCampus({
-        name: "Masarian Campus",
-        location: "Masarian",
-        description: "Advancing technical skills in rural sectors.",
-        imageUrl: "https://images.unsplash.com/photo-1498243639351-683636d406d5?auto=format&fit=crop&q=80"
+      await this.createBoardMember({
+        name: "The Registrar",
+        title: "The Registrar",
+        imageUrl: "attached_assets/fashion_design_course_1769508223008.JPG",
+        bio: "Managing admissions and student records with precision."
+      });
+    }
+
+    const existingNews = await this.getNews();
+    if (existingNews.length === 0) {
+      await this.createNews({
+        title: "Campus Life Highlights",
+        content: "Experience the vibrant student life at Belgut TTI, from cultural events to sports and leadership.",
+        imageUrl: "attached_assets/student_life_main_1769508223007.JPG",
+        category: "Event"
       });
     }
   }

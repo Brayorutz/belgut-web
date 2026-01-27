@@ -33,6 +33,10 @@ export function Navigation() {
       href: "/about",
       subItems: [
         { name: "Overview", href: "/about" },
+        { name: "The Principal", href: "/about#principal" },
+        { name: "Dean of Students", href: "/about#dean-students" },
+        { name: "Dean of Academics", href: "/about#dean-academics" },
+        { name: "The Registrar", href: "/about#registrar" },
         { name: "Service Charters", href: "/service-charters" },
       ]
     },

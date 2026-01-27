@@ -13,6 +13,10 @@
   --accent: 45 66% 52%; /* Gold #d4af37ish */
   --accent-foreground: 22 25% 20%;
 
+  /* Red - Destructive / Secondary CTA */
+  --destructive: 354 70% 54%;
+  --destructive-foreground: 0 0% 100%;
+
   /* Blue - Additional brand color */
   --secondary: 217 91% 60%; 
   --secondary-foreground: 0 0% 100%;

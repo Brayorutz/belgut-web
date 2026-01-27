@@ -3,25 +3,25 @@ import { Facebook, Twitter, Instagram, Mail, MapPin, Phone, ArrowRight } from "l
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-16 pb-8">
+    <footer className="bg-[#0b1727] text-gray-400 pt-24 pb-8 border-t border-white/5">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           {/* Brand */}
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <h3 className="font-display text-2xl font-bold text-white">BTTI</h3>
-              <p className="text-sm leading-relaxed text-gray-400">
-                A premier technical training institute committed to providing quality technical, vocational and entrepreneurship training.
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h3 className="font-display text-3xl font-black text-white tracking-tighter">BTTI.</h3>
+              <p className="text-sm leading-relaxed text-gray-400 max-w-xs">
+                Empowering the next generation through industry-connected technical excellence and professional innovation.
               </p>
             </div>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300">
+              <a href="#" className="w-12 h-12 rounded-md bg-white/5 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300 border border-white/5">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300">
+              <a href="#" className="w-12 h-12 rounded-md bg-white/5 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300 border border-white/5">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300">
+              <a href="#" className="w-12 h-12 rounded-md bg-white/5 hover:bg-primary hover:text-white flex items-center justify-center transition-all duration-300 border border-white/5">
                 <Instagram className="w-5 h-5" />
               </a>
             </div>

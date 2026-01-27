@@ -52,31 +52,45 @@ export function Navigation() {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-primary text-primary-foreground py-2 text-xs sm:text-sm hidden md:block">
+      <div className="bg-white border-b border-gray-100 py-3 text-xs sm:text-sm hidden md:block">
         <div className="container-custom flex justify-between items-center">
-          <div className="flex gap-6">
-            <span className="flex items-center gap-2">
-              <Phone className="w-3 h-3" /> +254 700 123 456
-            </span>
-            <span className="flex items-center gap-2">
-              <Mail className="w-3 h-3" /> info@btti.ac.ke
-            </span>
+          <div className="flex gap-10">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <MapPin className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase text-gray-400 leading-none mb-1">Address</p>
+                <p className="font-bold text-gray-900 leading-none">Kericho-Litein Rd, Kericho</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Mail className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase text-gray-400 leading-none mb-1">Email</p>
+                <p className="font-bold text-gray-900 leading-none">info@btti.ac.ke</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Phone className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase text-gray-400 leading-none mb-1">Phone Number</p>
+                <p className="font-bold text-gray-900 leading-none">+254 700 123 456</p>
+              </div>
+            </div>
           </div>
           <div className="flex gap-4 items-center">
-            <Link href="/portal" className="hover:text-accent transition-colors">Student Portal</Link>
-            <Link href="/staff" className="hover:text-accent transition-colors">Staff Mail</Link>
-            {user ? (
-               <div className="flex items-center gap-2 ml-4">
-                 <span className="text-accent text-xs">Admin: {user.firstName}</span>
-                 <button onClick={() => logout()} className="hover:text-accent">
-                   <LogOut className="w-3 h-3" />
-                 </button>
-               </div>
-            ) : (
-              <Link href="/api/login" className="flex items-center gap-1 hover:text-accent ml-4">
-                <LogIn className="w-3 h-3" /> Admin Login
-              </Link>
-            )}
+            <Link href="/portal" className="text-sm font-bold text-gray-700 hover:text-primary transition-colors">Student Portal</Link>
+            <div className="h-4 w-px bg-gray-200 mx-2" />
+            <Link href="/admissions">
+              <Button size="sm" className="bg-primary hover:bg-primary/90 text-white font-bold px-6 h-10 rounded-md">
+                CONTACT US
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -85,7 +99,7 @@ export function Navigation() {
       <header 
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-300 border-b border-transparent",
-          scrolled ? "bg-white/95 backdrop-blur-md shadow-md border-border/40 py-2" : "bg-white py-4"
+          scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-border/40 py-2" : "bg-white py-3"
         )}
       >
         <div className="container-custom flex items-center justify-between">
@@ -94,28 +108,29 @@ export function Navigation() {
             <img 
               src={logoImg} 
               alt="BTTI Logo" 
-              className="h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+              className="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
             />
-            <div className="hidden lg:block leading-tight">
-              <h1 className="font-display font-bold text-xl text-primary tracking-tight">Belgut Technical</h1>
-              <p className="font-display font-semibold text-sm text-gray-600">Training Institute</p>
+            <div className="leading-tight">
+              <h1 className="font-display font-black text-xl text-gray-900 tracking-tight flex items-center gap-1">
+                <span className="text-primary">B</span>TTI
+              </h1>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               link.subItems ? (
                 <DropdownMenu key={link.name}>
                   <DropdownMenuTrigger className={cn(
-                    "nav-link text-sm font-semibold tracking-wide flex items-center gap-1",
-                    location.startsWith(link.href) ? "text-primary" : "text-gray-600"
+                    "text-[13px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-colors hover:text-primary",
+                    location.startsWith(link.href) ? "text-primary" : "text-gray-900"
                   )}>
-                    {link.name} <ChevronDown className="w-4 h-4" />
+                    {link.name} <ChevronDown className="w-3 h-3" />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
+                  <DropdownMenuContent align="end" className="min-w-[200px] p-2">
                     {link.subItems.map(sub => (
-                      <DropdownMenuItem key={sub.name} asChild>
+                      <DropdownMenuItem key={sub.name} asChild className="rounded-md cursor-pointer">
                         <Link href={sub.href}>{sub.name}</Link>
                       </DropdownMenuItem>
                     ))}
@@ -126,19 +141,14 @@ export function Navigation() {
                   key={link.name} 
                   href={link.href}
                   className={cn(
-                    "nav-link text-sm font-semibold tracking-wide",
-                    location === link.href ? "text-primary after:w-full" : "text-gray-600"
+                    "text-[13px] font-black uppercase tracking-wider transition-colors hover:text-primary",
+                    location === link.href ? "text-primary" : "text-gray-900"
                   )}
                 >
                   {link.name}
                 </Link>
               )
             ))}
-            <Link href="/admissions">
-              <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold shadow-lg shadow-accent/20">
-                Apply Now
-              </Button>
-            </Link>
           </nav>
 
           {/* Mobile Menu Toggle */}

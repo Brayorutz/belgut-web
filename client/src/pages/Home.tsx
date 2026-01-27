@@ -10,11 +10,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import schoolLifeHero from "@assets/school_life_hero_1769508223008.JPG";
-import websiteHero from "@assets/website_hero_section_1769508223005.JPG";
-import studentLife1 from "@assets/student_life_1_1769508223008.JPG";
-import studentLife2 from "@assets/student_life_2_1769508223008.JPG";
-import studentLife3 from "@assets/student_life_3_1769508223007.JPG";
+import schoolLifeHero from "../../../attached_assets/school_life_hero_1769508223008.JPG";
+import websiteHero from "../../../attached_assets/website_hero_section_1769508223005.JPG";
+import studentLife1 from "../../../attached_assets/student_life_1_1769508223008.JPG";
+import studentLife2 from "../../../attached_assets/student_life_2_1769508223008.JPG";
+import studentLife3 from "../../../attached_assets/student_life_3_1769508223007.JPG";
 
 // Animations
 const fadeIn = {

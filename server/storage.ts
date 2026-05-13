@@ -8,7 +8,8 @@ import {
   type Download, type InsertDownload,
   type Application, type InsertApplication,
   type Inquiry, type InsertInquiry,
-  type JobPosting, type InsertJobPosting
+  type JobPosting, type InsertJobPosting,
+  type TenderAddendum, type InsertTenderAddendum
 } from "@shared/schema";
 import { authStorage, type IAuthStorage } from "./replit_integrations/auth/storage";
 
@@ -43,7 +44,12 @@ export interface IStorage extends IAuthStorage {
 
   getTenders(): Promise<Tender[]>;
   createTender(tender: InsertTender): Promise<Tender>;
+  updateTender(id: number, tender: Partial<InsertTender>): Promise<Tender>;
   deleteTender(id: number): Promise<void>;
+
+  getTenderAddendums(tenderId: number): Promise<TenderAddendum[]>;
+  createTenderAddendum(addendum: InsertTenderAddendum): Promise<TenderAddendum>;
+  deleteTenderAddendum(id: number): Promise<void>;
 
   getDownloads(): Promise<Download[]>;
   createDownload(item: InsertDownload): Promise<Download>;
@@ -67,6 +73,7 @@ export class MemStorage implements IStorage {
   private boardMembers: Map<number, BoardMember> = new Map();
   private news: Map<number, NewsItem> = new Map();
   private tenders: Map<number, Tender> = new Map();
+  private tenderAddendumsMap: Map<number, TenderAddendum> = new Map();
   private downloads: Map<number, Download> = new Map();
   private applications: Map<number, Application> = new Map();
   private inquiries: Map<number, Inquiry> = new Map();
@@ -79,6 +86,7 @@ export class MemStorage implements IStorage {
     boardMembers: 1,
     news: 1,
     tenders: 1,
+    tenderAddendums: 1,
     downloads: 1,
     applications: 1,
     inquiries: 1,
@@ -243,15 +251,49 @@ export class MemStorage implements IStorage {
       id,
       title: tender.title,
       description: tender.description ?? null,
-      deadline: tender.deadline,
+      deadline: tender.deadline instanceof Date ? tender.deadline : new Date(tender.deadline),
       documentUrl: tender.documentUrl ?? null,
       status: tender.status ?? "Open",
     };
     this.tenders.set(id, newTender);
     return newTender;
   }
+  async updateTender(id: number, updates: Partial<InsertTender>): Promise<Tender> {
+    const tender = this.tenders.get(id);
+    if (!tender) throw new Error("Tender not found");
+    const updated: Tender = {
+      ...tender,
+      ...updates,
+      deadline: updates.deadline
+        ? (updates.deadline instanceof Date ? updates.deadline : new Date(updates.deadline))
+        : tender.deadline,
+    };
+    this.tenders.set(id, updated);
+    return updated;
+  }
   async deleteTender(id: number): Promise<void> {
     this.tenders.delete(id);
+  }
+
+  async getTenderAddendums(tenderId: number): Promise<TenderAddendum[]> {
+    return Array.from(this.tenderAddendumsMap.values())
+      .filter(a => a.tenderId === tenderId)
+      .sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));
+  }
+  async createTenderAddendum(addendum: InsertTenderAddendum): Promise<TenderAddendum> {
+    const id = this.nextId.tenderAddendums++;
+    const newAddendum: TenderAddendum = {
+      id,
+      tenderId: addendum.tenderId,
+      title: addendum.title,
+      documentUrl: addendum.documentUrl,
+      date: new Date(),
+    };
+    this.tenderAddendumsMap.set(id, newAddendum);
+    return newAddendum;
+  }
+  async deleteTenderAddendum(id: number): Promise<void> {
+    this.tenderAddendumsMap.delete(id);
   }
 
   async getDownloads(): Promise<Download[]> {

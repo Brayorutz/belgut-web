@@ -89,6 +89,14 @@ export const inquiries = pgTable("inquiries", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const tenderAddendums = pgTable("tender_addendums", {
+  id: serial("id").primaryKey(),
+  tenderId: integer("tender_id").references(() => tenders.id).notNull(),
+  title: text("title").notNull(),
+  documentUrl: text("document_url").notNull(),
+  date: timestamp("date").defaultNow(),
+});
+
 export const jobPostings = pgTable("job_postings", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -131,6 +139,7 @@ export const insertDownloadSchema = createInsertSchema(downloads).omit({ id: tru
 export const insertApplicationSchema = createInsertSchema(applications).omit({ id: true, createdAt: true, status: true });
 export const insertInquirySchema = createInsertSchema(inquiries).omit({ id: true, createdAt: true });
 export const insertJobPostingSchema = createInsertSchema(jobPostings).omit({ id: true, createdAt: true });
+export const insertTenderAddendumSchema = createInsertSchema(tenderAddendums).omit({ id: true, date: true });
 
 // === TYPES ===
 export type Department = typeof departments.$inferSelect;
@@ -162,3 +171,6 @@ export type InsertInquiry = z.infer<typeof insertInquirySchema>;
 
 export type JobPosting = typeof jobPostings.$inferSelect;
 export type InsertJobPosting = z.infer<typeof insertJobPostingSchema>;
+
+export type TenderAddendum = typeof tenderAddendums.$inferSelect;
+export type InsertTenderAddendum = z.infer<typeof insertTenderAddendumSchema>;

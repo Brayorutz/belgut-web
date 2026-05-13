@@ -70,6 +70,18 @@ export async function registerRoutes(
     const result = await storage.createBoardMember(req.body);
     res.status(201).json(result);
   });
+  app.put("/api/board-members/:id", async (req, res) => {
+    try {
+      const result = await storage.updateBoardMember(Number(req.params.id), req.body);
+      res.json(result);
+    } catch {
+      res.status(404).json({ message: "Not found" });
+    }
+  });
+  app.delete("/api/board-members/:id", async (req, res) => {
+    await storage.deleteBoardMember(Number(req.params.id));
+    res.status(204).end();
+  });
 
   // News
   app.get(api.news.list.path, async (_req, res) => {
@@ -95,8 +107,32 @@ export async function registerRoutes(
     const result = await storage.createTender(req.body);
     res.status(201).json(result);
   });
+  app.put("/api/tenders/:id", async (req, res) => {
+    try {
+      const result = await storage.updateTender(Number(req.params.id), req.body);
+      res.json(result);
+    } catch {
+      res.status(404).json({ message: "Not found" });
+    }
+  });
   app.delete("/api/tenders/:id", async (req, res) => {
     await storage.deleteTender(Number(req.params.id));
+    res.status(204).end();
+  });
+
+  // Tender Addendums
+  app.get("/api/tender-addendums", async (req, res) => {
+    const tenderId = Number(req.query.tenderId);
+    if (!tenderId) return res.status(400).json({ message: "tenderId required" });
+    const result = await storage.getTenderAddendums(tenderId);
+    res.json(result);
+  });
+  app.post("/api/tender-addendums", async (req, res) => {
+    const result = await storage.createTenderAddendum(req.body);
+    res.status(201).json(result);
+  });
+  app.delete("/api/tender-addendums/:id", async (req, res) => {
+    await storage.deleteTenderAddendum(Number(req.params.id));
     res.status(204).end();
   });
 

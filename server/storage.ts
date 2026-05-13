@@ -7,7 +7,9 @@ import {
   type Tender, type InsertTender,
   type Download, type InsertDownload,
   type Application, type InsertApplication,
-  type Inquiry, type InsertInquiry
+  type Inquiry, type InsertInquiry,
+  type JobPosting, type InsertJobPosting,
+  type TenderAddendum, type InsertTenderAddendum
 } from "@shared/schema";
 import { authStorage, type IAuthStorage } from "./replit_integrations/auth/storage";
 
@@ -42,7 +44,12 @@ export interface IStorage extends IAuthStorage {
 
   getTenders(): Promise<Tender[]>;
   createTender(tender: InsertTender): Promise<Tender>;
+  updateTender(id: number, tender: Partial<InsertTender>): Promise<Tender>;
   deleteTender(id: number): Promise<void>;
+
+  getTenderAddendums(tenderId: number): Promise<TenderAddendum[]>;
+  createTenderAddendum(addendum: InsertTenderAddendum): Promise<TenderAddendum>;
+  deleteTenderAddendum(id: number): Promise<void>;
 
   getDownloads(): Promise<Download[]>;
   createDownload(item: InsertDownload): Promise<Download>;
@@ -51,7 +58,12 @@ export interface IStorage extends IAuthStorage {
   getApplications(): Promise<Application[]>;
   createApplication(app: InsertApplication): Promise<Application>;
 
+  getInquiries(): Promise<Inquiry[]>;
   createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
+
+  getJobPostings(): Promise<JobPosting[]>;
+  createJobPosting(posting: InsertJobPosting): Promise<JobPosting>;
+  deleteJobPosting(id: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -61,9 +73,11 @@ export class MemStorage implements IStorage {
   private boardMembers: Map<number, BoardMember> = new Map();
   private news: Map<number, NewsItem> = new Map();
   private tenders: Map<number, Tender> = new Map();
+  private tenderAddendumsMap: Map<number, TenderAddendum> = new Map();
   private downloads: Map<number, Download> = new Map();
   private applications: Map<number, Application> = new Map();
   private inquiries: Map<number, Inquiry> = new Map();
+  private jobPostingsMap: Map<number, JobPosting> = new Map();
 
   private nextId = {
     departments: 1,
@@ -72,9 +86,11 @@ export class MemStorage implements IStorage {
     boardMembers: 1,
     news: 1,
     tenders: 1,
+    tenderAddendums: 1,
     downloads: 1,
     applications: 1,
     inquiries: 1,
+    jobPostings: 1,
   };
 
   getUser = authStorage.getUser.bind(authStorage);
@@ -235,15 +251,49 @@ export class MemStorage implements IStorage {
       id,
       title: tender.title,
       description: tender.description ?? null,
-      deadline: tender.deadline,
+      deadline: tender.deadline instanceof Date ? tender.deadline : new Date(tender.deadline),
       documentUrl: tender.documentUrl ?? null,
       status: tender.status ?? "Open",
     };
     this.tenders.set(id, newTender);
     return newTender;
   }
+  async updateTender(id: number, updates: Partial<InsertTender>): Promise<Tender> {
+    const tender = this.tenders.get(id);
+    if (!tender) throw new Error("Tender not found");
+    const updated: Tender = {
+      ...tender,
+      ...updates,
+      deadline: updates.deadline
+        ? (updates.deadline instanceof Date ? updates.deadline : new Date(updates.deadline))
+        : tender.deadline,
+    };
+    this.tenders.set(id, updated);
+    return updated;
+  }
   async deleteTender(id: number): Promise<void> {
     this.tenders.delete(id);
+  }
+
+  async getTenderAddendums(tenderId: number): Promise<TenderAddendum[]> {
+    return Array.from(this.tenderAddendumsMap.values())
+      .filter(a => a.tenderId === tenderId)
+      .sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));
+  }
+  async createTenderAddendum(addendum: InsertTenderAddendum): Promise<TenderAddendum> {
+    const id = this.nextId.tenderAddendums++;
+    const newAddendum: TenderAddendum = {
+      id,
+      tenderId: addendum.tenderId,
+      title: addendum.title,
+      documentUrl: addendum.documentUrl,
+      date: new Date(),
+    };
+    this.tenderAddendumsMap.set(id, newAddendum);
+    return newAddendum;
+  }
+  async deleteTenderAddendum(id: number): Promise<void> {
+    this.tenderAddendumsMap.delete(id);
   }
 
   async getDownloads(): Promise<Download[]> {
@@ -289,6 +339,12 @@ export class MemStorage implements IStorage {
     return newApp;
   }
 
+  async getInquiries(): Promise<Inquiry[]> {
+    return Array.from(this.inquiries.values()).sort((a, b) =>
+      (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+    );
+  }
+
   async createInquiry(inquiry: InsertInquiry): Promise<Inquiry> {
     const id = this.nextId.inquiries++;
     const newInquiry: Inquiry = {
@@ -301,6 +357,33 @@ export class MemStorage implements IStorage {
     };
     this.inquiries.set(id, newInquiry);
     return newInquiry;
+  }
+
+  async getJobPostings(): Promise<JobPosting[]> {
+    return Array.from(this.jobPostingsMap.values()).sort((a, b) =>
+      (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+    );
+  }
+
+  async createJobPosting(posting: InsertJobPosting): Promise<JobPosting> {
+    const id = this.nextId.jobPostings++;
+    const newPosting: JobPosting = {
+      id,
+      title: posting.title,
+      department: posting.department,
+      type: posting.type ?? "Full-time",
+      description: posting.description,
+      requirements: posting.requirements,
+      deadline: posting.deadline instanceof Date ? posting.deadline : new Date(posting.deadline),
+      isActive: posting.isActive ?? true,
+      createdAt: new Date(),
+    };
+    this.jobPostingsMap.set(id, newPosting);
+    return newPosting;
+  }
+
+  async deleteJobPosting(id: number): Promise<void> {
+    this.jobPostingsMap.delete(id);
   }
 
   async seedDatabase() {

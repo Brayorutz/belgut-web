@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, ChevronDown, GraduationCap, Phone, MapPin, Mail, LogIn, LogOut } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
+import { Menu, X, ChevronDown, Phone, MapPin, Mail, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,20 +15,17 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
-  const { user, logout } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { 
-      name: "About Us", 
+    {
+      name: "About Us",
       href: "/about",
       subItems: [
         { name: "Overview", href: "/about" },
@@ -38,7 +34,7 @@ export function Navigation() {
         { name: "Dean of Academics", href: "/about#dean-academics" },
         { name: "The Registrar", href: "/about#registrar" },
         { name: "Service Charters", href: "/service-charters" },
-      ]
+      ],
     },
     { name: "Academics", href: "/academics" },
     { name: "Campuses", href: "/campuses" },
@@ -96,7 +92,7 @@ export function Navigation() {
       </div>
 
       {/* Main Navbar */}
-      <header 
+      <header
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-300 border-b border-transparent",
           scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-border/40 py-2" : "bg-white py-3"
@@ -137,8 +133,8 @@ export function Navigation() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Link 
-                  key={link.name} 
+                <Link
+                  key={link.name}
                   href={link.href}
                   className={cn(
                     "text-[13px] font-black uppercase tracking-wider transition-colors hover:text-primary",
@@ -152,7 +148,7 @@ export function Navigation() {
           </nav>
 
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             className="lg:hidden p-2 text-gray-600 hover:text-primary transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -160,52 +156,50 @@ export function Navigation() {
           </button>
         </div>
 
-                  <div className="lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg animate-in slide-in-from-top-5 max-h-[80vh] overflow-y-auto">
-                    <div className="container-custom py-4 flex flex-col gap-2">
-                      {navLinks.map((link) => (
-                        <div key={link.name}>
-                          {link.subItems ? (
-                            <div className="flex flex-col gap-2">
-                              <div className="px-4 py-3 text-sm font-bold text-primary border-b border-primary/5">{link.name}</div>
-                              {link.subItems.map(sub => (
-                                <Link 
-                                  key={sub.name} 
-                                  href={sub.href}
-                                  className={cn(
-                                    "px-8 py-2 rounded-md text-sm font-medium transition-colors",
-                                    location === sub.href ? "bg-primary/5 text-primary" : "text-gray-600 hover:bg-gray-50"
-                                  )}
-                                  onClick={() => setIsOpen(false)}
-                                >
-                                  {sub.name}
-                                </Link>
-                              ))}
-                            </div>
-                          ) : (
-                            <Link 
-                              href={link.href}
-                              className={cn(
-                                "px-4 py-3 rounded-md text-sm font-medium transition-colors block",
-                                location === link.href 
-                                  ? "bg-primary/5 text-primary" 
-                                  : "text-gray-600 hover:bg-gray-50"
-                              )}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {link.name}
-                            </Link>
+        {isOpen && (
+          <div className="lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg animate-in slide-in-from-top-5 max-h-[80vh] overflow-y-auto">
+            <div className="container-custom py-4 flex flex-col gap-2">
+              {navLinks.map(link => (
+                <div key={link.name}>
+                  {link.subItems ? (
+                    <div className="flex flex-col gap-2">
+                      <div className="px-4 py-3 text-sm font-bold text-primary border-b border-primary/5">{link.name}</div>
+                      {link.subItems.map(sub => (
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          className={cn(
+                            "px-8 py-2 rounded-md text-sm font-medium transition-colors",
+                            location === sub.href ? "bg-primary/5 text-primary" : "text-gray-600 hover:bg-gray-50"
                           )}
-                        </div>
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {sub.name}
+                        </Link>
                       ))}
-                      <div className="h-px bg-gray-100 my-2" />
-                      <Link href="/portal" className="px-4 py-2 text-sm text-gray-600 hover:text-primary">Student Portal</Link>
-                      {user ? (
-                        <button onClick={() => logout()} className="px-4 py-2 text-sm text-left text-destructive font-medium">Log Out</button>
-                      ) : (
-                        <Link href="/api/login" className="px-4 py-2 text-sm text-primary font-medium">Admin Login</Link>
-                      )}
                     </div>
-                  </div>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "px-4 py-3 rounded-md text-sm font-medium transition-colors block",
+                        location === link.href ? "bg-primary/5 text-primary" : "text-gray-600 hover:bg-gray-50"
+                      )}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
+              ))}
+              <div className="h-px bg-gray-100 my-2" />
+              <Link href="/portal" className="px-4 py-2 text-sm text-gray-600 hover:text-primary" onClick={() => setIsOpen(false)}>Student Portal</Link>
+              <Link href="/admin" className="px-4 py-2 text-sm text-primary font-semibold flex items-center gap-2" onClick={() => setIsOpen(false)}>
+                <Settings className="h-4 w-4" /> Admin
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
     </>
   );

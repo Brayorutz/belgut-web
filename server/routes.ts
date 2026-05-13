@@ -4,11 +4,44 @@ import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import express from "express";
+
+declare module "express-session" {
+  interface SessionData {
+    isAdmin: boolean;
+  }
+}
+
+const uploadsDir = path.resolve(process.cwd(), "uploads");
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadsDir),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      const base = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 60);
+      cb(null, `${Date.now()}_${base}${ext}`);
+    },
+  }),
+  fileFilter: (_req, file, cb) => {
+    const allowed = [".pdf", ".doc", ".docx", ".xlsx", ".xls", ".zip"];
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, allowed.includes(ext));
+  },
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // Serve uploaded files
+  app.use("/uploads", express.static(uploadsDir));
+
   // Auth Setup
   await setupAuth(app);
   registerAuthRoutes(app);
@@ -64,6 +97,18 @@ export async function registerRoutes(
     const result = await storage.createBoardMember(req.body);
     res.status(201).json(result);
   });
+  app.put("/api/board-members/:id", async (req, res) => {
+    try {
+      const result = await storage.updateBoardMember(Number(req.params.id), req.body);
+      res.json(result);
+    } catch {
+      res.status(404).json({ message: "Not found" });
+    }
+  });
+  app.delete("/api/board-members/:id", async (req, res) => {
+    await storage.deleteBoardMember(Number(req.params.id));
+    res.status(204).end();
+  });
 
   // News
   app.get(api.news.list.path, async (_req, res) => {
@@ -89,6 +134,40 @@ export async function registerRoutes(
     const result = await storage.createTender(req.body);
     res.status(201).json(result);
   });
+  app.put("/api/tenders/:id", async (req, res) => {
+    try {
+      const result = await storage.updateTender(Number(req.params.id), req.body);
+      res.json(result);
+    } catch {
+      res.status(404).json({ message: "Not found" });
+    }
+  });
+  app.delete("/api/tenders/:id", async (req, res) => {
+    await storage.deleteTender(Number(req.params.id));
+    res.status(204).end();
+  });
+
+  // Tender Addendums
+  app.get("/api/tender-addendums", async (req, res) => {
+    const tenderId = Number(req.query.tenderId);
+    if (!tenderId) return res.status(400).json({ message: "tenderId required" });
+    const result = await storage.getTenderAddendums(tenderId);
+    res.json(result);
+  });
+  app.post("/api/tender-addendums", async (req, res) => {
+    const result = await storage.createTenderAddendum(req.body);
+    res.status(201).json(result);
+  });
+  app.delete("/api/tender-addendums/:id", async (req, res) => {
+    await storage.deleteTenderAddendum(Number(req.params.id));
+    res.status(204).end();
+  });
+
+  // News delete
+  app.delete("/api/news/:id", async (req, res) => {
+    await storage.deleteNews(Number(req.params.id));
+    res.status(204).end();
+  });
 
   // Downloads
   app.get(api.downloads.list.path, async (_req, res) => {
@@ -98,6 +177,10 @@ export async function registerRoutes(
   app.post(api.downloads.create.path, async (req, res) => {
     const result = await storage.createDownload(req.body);
     res.status(201).json(result);
+  });
+  app.delete("/api/downloads/:id", async (req, res) => {
+    await storage.deleteDownload(Number(req.params.id));
+    res.status(204).end();
   });
 
   // Applications
@@ -111,9 +194,57 @@ export async function registerRoutes(
   });
 
   // Inquiries
+  app.get("/api/inquiries", async (_req, res) => {
+    const result = await storage.getInquiries();
+    res.json(result);
+  });
   app.post(api.inquiries.create.path, async (req, res) => {
     const result = await storage.createInquiry(req.body);
     res.status(201).json(result);
+  });
+
+  // Job Postings
+  app.get("/api/job-postings", async (_req, res) => {
+    const result = await storage.getJobPostings();
+    res.json(result);
+  });
+  app.post("/api/job-postings", async (req, res) => {
+    const result = await storage.createJobPosting(req.body);
+    res.status(201).json(result);
+  });
+  app.delete("/api/job-postings/:id", async (req, res) => {
+    await storage.deleteJobPosting(Number(req.params.id));
+    res.status(204).end();
+  });
+
+  // Admin Auth (simple username/password)
+  // File Upload
+  app.post("/api/upload", upload.single("file"), (req, res) => {
+    if (!req.file) return res.status(400).json({ message: "No file uploaded or file type not allowed." });
+    const url = `/uploads/${req.file.filename}`;
+    res.json({ url, filename: req.file.originalname });
+  });
+
+  app.get("/api/admin/me", (req, res) => {
+    res.json({ isAdmin: !!req.session.isAdmin });
+  });
+
+  app.post("/api/admin/login", (req, res) => {
+    const { username, password } = req.body;
+    const adminUsername = process.env.ADMIN_USERNAME || "admin";
+    const adminPassword = process.env.ADMIN_PASSWORD || "btti2024";
+
+    if (username === adminUsername && password === adminPassword) {
+      req.session.isAdmin = true;
+      res.json({ success: true });
+    } else {
+      res.status(401).json({ message: "Invalid username or password." });
+    }
+  });
+
+  app.post("/api/admin/logout", (req, res) => {
+    req.session.isAdmin = false;
+    res.json({ success: true });
   });
 
   // Seed Data

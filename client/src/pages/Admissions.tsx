@@ -235,7 +235,7 @@ export default function Admissions() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Preferred Campus</FormLabel>
-                        <Select onValueChange={(val) => field.onChange(parseInt(val))} defaultValue={field.value?.toString()}>
+                        <Select onValueChange={(val) => field.onChange(parseInt(val))} value={field.value?.toString()}>
                           <FormControl>
                             <SelectTrigger className="h-12">
                               <SelectValue placeholder="Select Campus" />

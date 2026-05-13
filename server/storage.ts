@@ -7,7 +7,8 @@ import {
   type Tender, type InsertTender,
   type Download, type InsertDownload,
   type Application, type InsertApplication,
-  type Inquiry, type InsertInquiry
+  type Inquiry, type InsertInquiry,
+  type JobPosting, type InsertJobPosting
 } from "@shared/schema";
 import { authStorage, type IAuthStorage } from "./replit_integrations/auth/storage";
 
@@ -51,7 +52,12 @@ export interface IStorage extends IAuthStorage {
   getApplications(): Promise<Application[]>;
   createApplication(app: InsertApplication): Promise<Application>;
 
+  getInquiries(): Promise<Inquiry[]>;
   createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
+
+  getJobPostings(): Promise<JobPosting[]>;
+  createJobPosting(posting: InsertJobPosting): Promise<JobPosting>;
+  deleteJobPosting(id: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -64,6 +70,7 @@ export class MemStorage implements IStorage {
   private downloads: Map<number, Download> = new Map();
   private applications: Map<number, Application> = new Map();
   private inquiries: Map<number, Inquiry> = new Map();
+  private jobPostingsMap: Map<number, JobPosting> = new Map();
 
   private nextId = {
     departments: 1,
@@ -75,6 +82,7 @@ export class MemStorage implements IStorage {
     downloads: 1,
     applications: 1,
     inquiries: 1,
+    jobPostings: 1,
   };
 
   getUser = authStorage.getUser.bind(authStorage);
@@ -289,6 +297,12 @@ export class MemStorage implements IStorage {
     return newApp;
   }
 
+  async getInquiries(): Promise<Inquiry[]> {
+    return Array.from(this.inquiries.values()).sort((a, b) =>
+      (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+    );
+  }
+
   async createInquiry(inquiry: InsertInquiry): Promise<Inquiry> {
     const id = this.nextId.inquiries++;
     const newInquiry: Inquiry = {
@@ -301,6 +315,33 @@ export class MemStorage implements IStorage {
     };
     this.inquiries.set(id, newInquiry);
     return newInquiry;
+  }
+
+  async getJobPostings(): Promise<JobPosting[]> {
+    return Array.from(this.jobPostingsMap.values()).sort((a, b) =>
+      (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+    );
+  }
+
+  async createJobPosting(posting: InsertJobPosting): Promise<JobPosting> {
+    const id = this.nextId.jobPostings++;
+    const newPosting: JobPosting = {
+      id,
+      title: posting.title,
+      department: posting.department,
+      type: posting.type ?? "Full-time",
+      description: posting.description,
+      requirements: posting.requirements,
+      deadline: posting.deadline instanceof Date ? posting.deadline : new Date(posting.deadline),
+      isActive: posting.isActive ?? true,
+      createdAt: new Date(),
+    };
+    this.jobPostingsMap.set(id, newPosting);
+    return newPosting;
+  }
+
+  async deleteJobPosting(id: number): Promise<void> {
+    this.jobPostingsMap.delete(id);
   }
 
   async seedDatabase() {

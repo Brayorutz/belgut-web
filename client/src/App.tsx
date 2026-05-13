@@ -16,6 +16,7 @@ import Tenders from "@/pages/Tenders";
 import Careers from "@/pages/Careers";
 import ServiceCharters from "@/pages/ServiceCharters";
 import Campuses from "@/pages/Campuses";
+import Admin from "@/pages/Admin";
 
 function Router() {
   return (
@@ -30,11 +31,7 @@ function Router() {
       <Route path="/news" component={News} />
       <Route path="/tenders" component={Tenders} />
       <Route path="/careers" component={Careers} />
-      {/* 
-        Add Downloads later if needed, 
-        or map them to a 'Coming Soon' or specific components.
-        For now, let's keep it complete with core pages.
-      */}
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

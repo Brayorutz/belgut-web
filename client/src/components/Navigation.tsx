@@ -66,10 +66,12 @@ export function Navigation() {
             <Link href="/portal" className="hover:text-accent transition-colors">Student Portal</Link>
             <Link href="/staff" className="hover:text-accent transition-colors">Staff Mail</Link>
             {user ? (
-               <div className="flex items-center gap-2 ml-4">
-                 <span className="text-accent text-xs">Admin: {user.firstName}</span>
-                 <button onClick={() => logout()} className="hover:text-accent">
-                   <LogOut className="w-3 h-3" />
+               <div className="flex items-center gap-3 ml-4">
+                 <Link href="/admin" className="text-accent text-xs font-semibold hover:underline">
+                   Admin Panel
+                 </Link>
+                 <button onClick={() => logout()} className="hover:text-accent flex items-center gap-1 text-xs">
+                   <LogOut className="w-3 h-3" /> Logout
                  </button>
                </div>
             ) : (
@@ -188,11 +190,14 @@ export function Navigation() {
                         </div>
                       ))}
                       <div className="h-px bg-gray-100 my-2" />
-                      <Link href="/portal" className="px-4 py-2 text-sm text-gray-600 hover:text-primary">Student Portal</Link>
+                      <Link href="/portal" className="px-4 py-2 text-sm text-gray-600 hover:text-primary" onClick={() => setIsOpen(false)}>Student Portal</Link>
                       {user ? (
-                        <button onClick={() => logout()} className="px-4 py-2 text-sm text-left text-destructive font-medium">Log Out</button>
+                        <>
+                          <Link href="/admin" className="px-4 py-2 text-sm text-primary font-semibold" onClick={() => setIsOpen(false)}>Admin Panel</Link>
+                          <button onClick={() => { logout(); setIsOpen(false); }} className="px-4 py-2 text-sm text-left text-destructive font-medium">Log Out</button>
+                        </>
                       ) : (
-                        <Link href="/api/login" className="px-4 py-2 text-sm text-primary font-medium">Admin Login</Link>
+                        <Link href="/api/login" className="px-4 py-2 text-sm text-primary font-medium" onClick={() => setIsOpen(false)}>Admin Login</Link>
                       )}
                     </div>
                   </div>

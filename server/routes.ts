@@ -89,6 +89,16 @@ export async function registerRoutes(
     const result = await storage.createTender(req.body);
     res.status(201).json(result);
   });
+  app.delete("/api/tenders/:id", async (req, res) => {
+    await storage.deleteTender(Number(req.params.id));
+    res.status(204).end();
+  });
+
+  // News delete
+  app.delete("/api/news/:id", async (req, res) => {
+    await storage.deleteNews(Number(req.params.id));
+    res.status(204).end();
+  });
 
   // Downloads
   app.get(api.downloads.list.path, async (_req, res) => {
@@ -98,6 +108,10 @@ export async function registerRoutes(
   app.post(api.downloads.create.path, async (req, res) => {
     const result = await storage.createDownload(req.body);
     res.status(201).json(result);
+  });
+  app.delete("/api/downloads/:id", async (req, res) => {
+    await storage.deleteDownload(Number(req.params.id));
+    res.status(204).end();
   });
 
   // Applications
@@ -111,9 +125,27 @@ export async function registerRoutes(
   });
 
   // Inquiries
+  app.get("/api/inquiries", async (_req, res) => {
+    const result = await storage.getInquiries();
+    res.json(result);
+  });
   app.post(api.inquiries.create.path, async (req, res) => {
     const result = await storage.createInquiry(req.body);
     res.status(201).json(result);
+  });
+
+  // Job Postings
+  app.get("/api/job-postings", async (_req, res) => {
+    const result = await storage.getJobPostings();
+    res.json(result);
+  });
+  app.post("/api/job-postings", async (req, res) => {
+    const result = await storage.createJobPosting(req.body);
+    res.status(201).json(result);
+  });
+  app.delete("/api/job-postings/:id", async (req, res) => {
+    await storage.deleteJobPosting(Number(req.params.id));
+    res.status(204).end();
   });
 
   // Seed Data

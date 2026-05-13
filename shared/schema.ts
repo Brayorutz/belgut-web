@@ -89,6 +89,18 @@ export const inquiries = pgTable("inquiries", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const jobPostings = pgTable("job_postings", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  department: text("department").notNull(),
+  type: text("type").notNull().default("Full-time"), // Full-time, Part-time, Contract
+  description: text("description").notNull(),
+  requirements: text("requirements").notNull(),
+  deadline: timestamp("deadline").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // === RELATIONS ===
 export const coursesRelations = relations(courses, ({ one }) => ({
   department: one(departments, {
@@ -118,6 +130,7 @@ export const insertTenderSchema = createInsertSchema(tenders).omit({ id: true })
 export const insertDownloadSchema = createInsertSchema(downloads).omit({ id: true, updatedAt: true });
 export const insertApplicationSchema = createInsertSchema(applications).omit({ id: true, createdAt: true, status: true });
 export const insertInquirySchema = createInsertSchema(inquiries).omit({ id: true, createdAt: true });
+export const insertJobPostingSchema = createInsertSchema(jobPostings).omit({ id: true, createdAt: true });
 
 // === TYPES ===
 export type Department = typeof departments.$inferSelect;
@@ -146,3 +159,6 @@ export type InsertApplication = z.infer<typeof insertApplicationSchema>;
 
 export type Inquiry = typeof inquiries.$inferSelect;
 export type InsertInquiry = z.infer<typeof insertInquirySchema>;
+
+export type JobPosting = typeof jobPostings.$inferSelect;
+export type InsertJobPosting = z.infer<typeof insertJobPostingSchema>;

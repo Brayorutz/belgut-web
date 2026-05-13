@@ -389,35 +389,49 @@ export class MemStorage implements IStorage {
   async seedDatabase() {
     const existingCampuses = await this.getCampuses();
     if (existingCampuses.length === 0) {
-      // ... (existing campuses code)
+      await this.createCampus({
+        name: "Main Campus",
+        location: "Off Kericho-Litein Road, Kericho",
+        contactInfo: "+254 700 123 456",
+        description: "The primary hub for technical and vocational training."
+      });
+      await this.createCampus({
+        name: "Litein Campus",
+        location: "Litein Town",
+        contactInfo: "+254 722 000 000",
+        description: "Specialized in business and ICT courses."
+      });
+      await this.createCampus({
+        name: "Sosiot Campus",
+        location: "Sosiot Center",
+        contactInfo: "+254 711 000 000",
+        description: "Center for agriculture and building technology."
+      });
+      await this.createCampus({
+        name: "Masarian Campus",
+        location: "Masarian Area",
+        contactInfo: "+254 733 000 000",
+        description: "Focusing on community development and health sciences."
+      });
     }
 
     const existingBoard = await this.getBoardMembers();
     if (existingBoard.length === 0) {
-      await this.createBoardMember({
-        name: "Mr. Nelson Sang",
-        title: "The Principal",
-        imageUrl: "attached_assets/the_principal_1769508223006.JPG",
-        bio: "Leading Belgut TTI towards excellence in technical education."
-      });
-      await this.createBoardMember({
-        name: "Dean of Students",
-        title: "Dean of Students",
-        imageUrl: "attached_assets/student_leadership_president_1769508223008.JPG",
-        bio: "Dedicated to student welfare and leadership development."
-      });
-      await this.createBoardMember({
-        name: "Dean of Academics",
-        title: "Dean of Academics",
-        imageUrl: "attached_assets/department_of_food_and_hospitality_1769508223007.JPG",
-        bio: "Ensuring academic rigor and quality in all programs."
-      });
-      await this.createBoardMember({
-        name: "The Registrar",
-        title: "The Registrar",
-        imageUrl: "attached_assets/fashion_design_course_1769508223008.JPG",
-        bio: "Managing admissions and student records with precision."
-      });
+      const members = [
+        { name: "Dr. John Rotich", title: "Chairperson", imageUrl: "attached_assets/John-Rotich_1769510044164.png", bio: "Leading the board with vision and integrity." },
+        { name: "Mr. Nelson Sang", title: "Principal / Secretary", imageUrl: "attached_assets/PRINCIPAL_1769510044164.jpg", bio: "The Principal and Secretary to the Board." },
+        { name: "Benard Korir", title: "Member", imageUrl: "attached_assets/wesley_1769510044162.png", bio: "Board Member representing technical interests." },
+        { name: "John K. Agutu", title: "Member", imageUrl: "attached_assets/agutu_1769510044163.png", bio: "Board Member with extensive academic experience." },
+        { name: "CPA. Linda Gataka", title: "Member", imageUrl: "attached_assets/linda_1769510044163.jpg", bio: "Board Member with financial expertise." },
+        { name: "Ms. Caroline Chepngetich", title: "Member", imageUrl: "attached_assets/caroline_1769510044163.jpg", bio: "Board Member representing legal and community interests." },
+        { name: "Dr. Milkah Obwenyi K. Bii", title: "Member", imageUrl: "attached_assets/milkah_1769510044163.jpg", bio: "Board Member dedicated to educational standards." },
+        { name: "Eng. Tonui Wesley", title: "Member", imageUrl: "attached_assets/wesley_1769510044162.png", bio: "Board Member with engineering and infrastructure focus." },
+        { name: "Peter Cheruiyot", title: "Member", imageUrl: "attached_assets/peter_1769510044161.jpg", bio: "Board Member contributing to strategic development." }
+      ];
+
+      for (const member of members) {
+        await this.createBoardMember(member);
+      }
     }
 
     const existingNews = await this.getNews();

@@ -6,12 +6,20 @@
 
 :root {
   /* Green - Primary (Education/Growth) */
-  --primary: 158 64% 32%; /* Emerald-700 approx */
+  --primary: 161 94% 30%; /* BTTI Green #059669 */
   --primary-foreground: 0 0% 100%;
   
   /* Gold - Accent (Excellence/Prestige) */
-  --accent: 43 96% 56%; /* Amber-500 approx */
+  --accent: 45 66% 52%; /* BTTI Gold #d4af37 */
   --accent-foreground: 22 25% 20%;
+
+  /* Blue - Secondary (Professionalism) */
+  --secondary: 217 91% 60%; /* BTTI Blue #3b82f6 */
+  --secondary-foreground: 0 0% 100%;
+
+  /* Red - Destructive / Secondary CTA */
+  --destructive: 354 70% 54%;
+  --destructive-foreground: 0 0% 100%;
 
   --background: 210 20% 98%;
   --foreground: 222 47% 11%;

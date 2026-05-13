@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { useAdminAuth } from "@/hooks/use-admin-auth";
@@ -14,7 +14,8 @@ import { useToast } from "@/hooks/use-toast";
 import {
   Trash2, Plus, Newspaper, FileText, Briefcase, Users,
   MessageSquare, LayoutDashboard, Lock, LogOut, Eye, EyeOff,
-  Pencil, Check, X, Paperclip, ChevronDown, ChevronUp, UserSquare2
+  Pencil, Check, X, Paperclip, ChevronDown, ChevronUp, UserSquare2,
+  Upload, Link2, FileUp, Loader2
 } from "lucide-react";
 import type { NewsItem, Tender, TenderAddendum, JobPosting, Application, Inquiry, BoardMember } from "@shared/schema";
 
@@ -25,6 +26,103 @@ function req(method: string, url: string, body?: unknown) {
     body: body ? JSON.stringify(body) : undefined,
     credentials: "include",
   });
+}
+
+// ─── File Upload Input ────────────────────────────────────────
+function FileUploadInput({
+  value,
+  onChange,
+  placeholder = "https://... or upload a file",
+  label,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+  placeholder?: string;
+  label?: string;
+}) {
+  const [mode, setMode] = useState<"url" | "file">("url");
+  const [uploading, setUploading] = useState(false);
+  const [uploadedName, setUploadedName] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd, credentials: "include" });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Upload failed");
+      }
+      const data = await res.json();
+      onChange(data.url);
+      setUploadedName(file.name);
+      toast({ title: "File uploaded successfully." });
+    } catch (err: any) {
+      toast({ title: err.message || "Upload failed.", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      {label && <Label>{label}</Label>}
+      <div className="flex gap-1.5 mb-1.5">
+        <button
+          type="button"
+          onClick={() => setMode("url")}
+          className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border transition-colors ${mode === "url" ? "bg-primary text-white border-primary" : "bg-background text-muted-foreground border-border hover:bg-muted"}`}
+        >
+          <Link2 className="h-3 w-3" /> Paste URL
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode("file")}
+          className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border transition-colors ${mode === "file" ? "bg-primary text-white border-primary" : "bg-background text-muted-foreground border-border hover:bg-muted"}`}
+        >
+          <Upload className="h-3 w-3" /> Upload PDF
+        </button>
+      </div>
+
+      {mode === "url" ? (
+        <Input
+          value={value}
+          onChange={e => { onChange(e.target.value); setUploadedName(null); }}
+          placeholder={placeholder}
+        />
+      ) : (
+        <div
+          className="border-2 border-dashed border-border rounded-lg px-4 py-5 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-colors"
+          onClick={() => fileRef.current?.click()}
+        >
+          <input ref={fileRef} type="file" accept=".pdf,.doc,.docx,.xlsx,.xls,.zip" className="hidden" onChange={handleFile} />
+          {uploading ? (
+            <div className="flex items-center justify-center gap-2 text-primary">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span className="text-sm">Uploading...</span>
+            </div>
+          ) : uploadedName || value ? (
+            <div className="space-y-1">
+              <FileUp className="h-6 w-6 mx-auto text-primary" />
+              <p className="text-sm font-medium text-primary">{uploadedName || "File uploaded"}</p>
+              <p className="text-xs text-muted-foreground">Click to replace</p>
+            </div>
+          ) : (
+            <div className="space-y-1">
+              <FileUp className="h-6 w-6 mx-auto text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">Click to select a PDF or document</p>
+              <p className="text-xs text-muted-foreground">PDF, DOC, DOCX, XLS, XLSX, ZIP — max 20 MB</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ─── Login Form ───────────────────────────────────────────────
@@ -405,9 +503,12 @@ function TendersTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) 
             <div className="space-y-1"><Label>Deadline</Label>
               <Input type="date" value={form.deadline} onChange={e => setForm(p => ({ ...p, deadline: e.target.value }))} required />
             </div>
-            <div className="space-y-1"><Label>Document URL</Label>
-              <Input value={form.documentUrl} onChange={e => setForm(p => ({ ...p, documentUrl: e.target.value }))} placeholder="https://..." />
-            </div>
+            <FileUploadInput
+              label="Tender Document"
+              value={form.documentUrl}
+              onChange={url => setForm(p => ({ ...p, documentUrl: url }))}
+              placeholder="https://..."
+            />
             <div className="space-y-1"><Label>Status</Label>
               <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))} className="w-full border rounded-md px-3 py-2 text-sm bg-background">
                 <option>Open</option><option>Closed</option>
@@ -444,9 +545,12 @@ function TendersTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) 
                       </select>
                     </div>
                   </div>
-                  <div className="space-y-1"><Label className="text-xs">Document URL</Label>
-                    <Input value={editForm.documentUrl} onChange={e => setEditForm(p => ({ ...p, documentUrl: e.target.value }))} className="text-sm h-8" placeholder="https://..." />
-                  </div>
+                  <FileUploadInput
+                    label="Tender Document"
+                    value={editForm.documentUrl}
+                    onChange={url => setEditForm(p => ({ ...p, documentUrl: url }))}
+                    placeholder="https://..."
+                  />
                   <div className="flex gap-2">
                     <Button size="sm" className="gap-1" onClick={() => updateMutation.mutate({ id: tender.id, data: editForm })} disabled={updateMutation.isPending}>
                       <Check className="h-3.5 w-3.5" /> Save Changes
@@ -541,26 +645,26 @@ function AddendumManager({ tenderId, toast }: { tenderId: number; toast: ReturnT
       {addendums?.length === 0 && !isLoading && <p className="text-xs text-muted-foreground italic">No addendums yet.</p>}
 
       {/* Add addendum form */}
-      <div className="flex gap-2 mt-2">
+      <div className="space-y-2 mt-2 bg-muted/40 rounded-lg p-3">
+        <p className="text-xs font-medium text-muted-foreground">Add Addendum</p>
         <Input
           value={addForm.title}
           onChange={e => setAddForm(p => ({ ...p, title: e.target.value }))}
-          placeholder="Addendum title"
-          className="h-7 text-xs flex-1"
+          placeholder="Addendum title (e.g. Addendum No. 1)"
+          className="h-8 text-xs"
         />
-        <Input
+        <FileUploadInput
           value={addForm.documentUrl}
-          onChange={e => setAddForm(p => ({ ...p, documentUrl: e.target.value }))}
-          placeholder="Document URL"
-          className="h-7 text-xs flex-1"
+          onChange={url => setAddForm(p => ({ ...p, documentUrl: url }))}
+          placeholder="https://..."
         />
         <Button
           size="sm"
-          className="h-7 px-2 text-xs gap-1 shrink-0"
+          className="w-full gap-1.5 text-xs"
           onClick={() => { if (addForm.title && addForm.documentUrl) createMutation.mutate(addForm); }}
           disabled={createMutation.isPending || !addForm.title || !addForm.documentUrl}
         >
-          <Plus className="h-3 w-3" /> Add
+          <Plus className="h-3 w-3" /> Add Addendum
         </Button>
       </div>
     </div>

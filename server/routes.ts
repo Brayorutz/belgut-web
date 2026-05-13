@@ -4,6 +4,10 @@ import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import express from "express";
 
 declare module "express-session" {
   interface SessionData {
@@ -11,10 +15,33 @@ declare module "express-session" {
   }
 }
 
+const uploadsDir = path.resolve(process.cwd(), "uploads");
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadsDir),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      const base = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 60);
+      cb(null, `${Date.now()}_${base}${ext}`);
+    },
+  }),
+  fileFilter: (_req, file, cb) => {
+    const allowed = [".pdf", ".doc", ".docx", ".xlsx", ".xls", ".zip"];
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, allowed.includes(ext));
+  },
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // Serve uploaded files
+  app.use("/uploads", express.static(uploadsDir));
+
   // Auth Setup
   await setupAuth(app);
   registerAuthRoutes(app);
@@ -191,6 +218,13 @@ export async function registerRoutes(
   });
 
   // Admin Auth (simple username/password)
+  // File Upload
+  app.post("/api/upload", upload.single("file"), (req, res) => {
+    if (!req.file) return res.status(400).json({ message: "No file uploaded or file type not allowed." });
+    const url = `/uploads/${req.file.filename}`;
+    res.json({ url, filename: req.file.originalname });
+  });
+
   app.get("/api/admin/me", (req, res) => {
     res.json({ isAdmin: !!req.session.isAdmin });
   });

@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
-import { useAuth } from "@/hooks/use-auth";
+import { useAdminAuth } from "@/hooks/use-admin-auth";
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Trash2, Plus, Newspaper, FileText, Briefcase, Users, MessageSquare, LayoutDashboard, LogIn } from "lucide-react";
+import {
+  Trash2, Plus, Newspaper, FileText, Briefcase, Users,
+  MessageSquare, LayoutDashboard, Lock, LogOut, Eye, EyeOff
+} from "lucide-react";
 import type { NewsItem, Tender, JobPosting, Application, Inquiry } from "@shared/schema";
 
 function apiRequest(method: string, url: string, body?: unknown) {
@@ -23,13 +26,88 @@ function apiRequest(method: string, url: string, body?: unknown) {
   });
 }
 
+function LoginForm() {
+  const { login, loginError, isLoggingIn } = useAdminAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    login({ username, password });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="flex items-center justify-center min-h-[calc(100vh-130px)] px-4">
+        <Card className="w-full max-w-sm shadow-lg border-0">
+          <CardHeader className="text-center pb-2">
+            <div className="bg-primary/10 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3">
+              <Lock className="h-7 w-7 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">Admin Login</CardTitle>
+            <CardDescription>Enter your credentials to access the dashboard.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="admin-username">Username</Label>
+                <Input
+                  id="admin-username"
+                  data-testid="input-admin-username"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                  placeholder="Enter username"
+                  autoComplete="username"
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="admin-password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="admin-password"
+                    data-testid="input-admin-password"
+                    type={showPw ? "text" : "password"}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="Enter password"
+                    autoComplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowPw(v => !v)}
+                  >
+                    {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              {loginError && (
+                <p className="text-sm text-destructive bg-destructive/10 rounded-md px-3 py-2">
+                  {loginError}
+                </p>
+              )}
+              <Button type="submit" className="w-full" disabled={isLoggingIn} data-testid="button-admin-login">
+                {isLoggingIn ? "Signing in..." : "Sign In"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
 export default function Admin() {
-  const { user, isLoading } = useAuth();
+  const { isAdmin, isLoading, logout, isLoggingOut } = useAdminAuth();
   const { toast } = useToast();
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
@@ -38,37 +116,30 @@ export default function Admin() {
     );
   }
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="container mx-auto px-4 py-24 text-center">
-          <div className="max-w-md mx-auto space-y-6">
-            <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
-              <LogIn className="h-8 w-8 text-primary" />
-            </div>
-            <h1 className="text-3xl font-bold">Admin Access Required</h1>
-            <p className="text-muted-foreground">
-              You need to be logged in with an admin account to access this page.
-            </p>
-            <a href="/api/login">
-              <Button size="lg" className="gap-2">
-                <LogIn className="h-5 w-5" /> Login with Replit
-              </Button>
-            </a>
-          </div>
-        </div>
-      </div>
-    );
+  if (!isAdmin) {
+    return <LoginForm />;
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Welcome back, {user.firstName || user.email}. Manage BTTI website content from here.</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+            <p className="text-muted-foreground mt-1">Manage BTTI website content from here.</p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 text-destructive border-destructive/30 hover:bg-destructive/10"
+            onClick={() => logout()}
+            disabled={isLoggingOut}
+            data-testid="button-admin-logout"
+          >
+            <LogOut className="h-4 w-4" />
+            {isLoggingOut ? "Signing out..." : "Sign Out"}
+          </Button>
         </div>
 
         <Tabs defaultValue="overview">
@@ -123,7 +194,7 @@ function OverviewTab() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {stats.map((stat) => (
+        {stats.map(stat => (
           <Card key={stat.label} className="bg-white border-0 shadow-sm">
             <CardContent className="p-5">
               <div className={`${stat.color} w-10 h-10 rounded-lg flex items-center justify-center mb-3`}>
@@ -135,21 +206,11 @@ function OverviewTab() {
           </Card>
         ))}
       </div>
-
       <Card className="bg-white border-0 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-base">Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-3">
-          <Button variant="outline" size="sm" className="gap-2" onClick={() => document.querySelector<HTMLButtonElement>('[data-value="news"]')?.click()}>
-            <Plus className="h-4 w-4" /> Add News Article
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={() => document.querySelector<HTMLButtonElement>('[data-value="tenders"]')?.click()}>
-            <Plus className="h-4 w-4" /> Post Tender
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2" onClick={() => document.querySelector<HTMLButtonElement>('[data-value="jobs"]')?.click()}>
-            <Plus className="h-4 w-4" /> Post Job
-          </Button>
+        <CardHeader><CardTitle className="text-base">About Admin Access</CardTitle></CardHeader>
+        <CardContent className="text-sm text-muted-foreground space-y-1">
+          <p>Use the tabs above to manage news articles, tenders, job postings, and view applications and inquiries.</p>
+          <p>Changes take effect immediately on the public-facing website.</p>
         </CardContent>
       </Card>
     </div>
@@ -183,19 +244,14 @@ function NewsTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
       <Card className="lg:col-span-2 bg-white border-0 shadow-sm h-fit">
         <CardHeader><CardTitle className="text-base flex items-center gap-2"><Plus className="h-4 w-4" /> Add News Article</CardTitle></CardHeader>
         <CardContent>
-          <form onSubmit={(e) => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
+          <form onSubmit={e => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="news-title">Title</Label>
               <Input id="news-title" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="Article title" required />
             </div>
             <div className="space-y-1">
               <Label htmlFor="news-category">Category</Label>
-              <select
-                id="news-category"
-                value={form.category}
-                onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
-                className="w-full border rounded-md px-3 py-2 text-sm bg-background"
-              >
+              <select id="news-category" value={form.category} onChange={e => setForm(p => ({ ...p, category: e.target.value }))} className="w-full border rounded-md px-3 py-2 text-sm bg-background">
                 <option>News</option>
                 <option>Event</option>
                 <option>Announcement</option>
@@ -231,21 +287,13 @@ function NewsTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
                 <p className="text-xs text-muted-foreground line-clamp-2">{item.content}</p>
                 <p className="text-xs text-muted-foreground">{item.date ? new Date(item.date).toLocaleDateString() : ""}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
-                onClick={() => deleteMutation.mutate(item.id)}
-                disabled={deleteMutation.isPending}
-              >
+              <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => deleteMutation.mutate(item.id)} disabled={deleteMutation.isPending}>
                 <Trash2 className="h-4 w-4" />
               </Button>
             </CardContent>
           </Card>
         ))}
-        {!isLoading && newsList?.length === 0 && (
-          <p className="text-muted-foreground text-sm py-4 text-center">No news articles yet.</p>
-        )}
+        {!isLoading && newsList?.length === 0 && <p className="text-muted-foreground text-sm py-4 text-center">No news articles yet.</p>}
       </div>
     </div>
   );
@@ -256,10 +304,7 @@ function TendersTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) 
   const { data: tendersList, isLoading } = useQuery<Tender[]>({ queryKey: ["/api/tenders"] });
 
   const createMutation = useMutation({
-    mutationFn: (data: typeof form) => apiRequest("POST", "/api/tenders", {
-      ...data,
-      deadline: new Date(data.deadline),
-    }),
+    mutationFn: (data: typeof form) => apiRequest("POST", "/api/tenders", { ...data, deadline: new Date(data.deadline) }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/tenders"] });
       setForm({ title: "", description: "", deadline: "", documentUrl: "", status: "Open" });
@@ -281,7 +326,7 @@ function TendersTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) 
       <Card className="lg:col-span-2 bg-white border-0 shadow-sm h-fit">
         <CardHeader><CardTitle className="text-base flex items-center gap-2"><Plus className="h-4 w-4" /> Post New Tender</CardTitle></CardHeader>
         <CardContent>
-          <form onSubmit={(e) => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
+          <form onSubmit={e => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="tender-title">Tender Title</Label>
               <Input id="tender-title" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Invitation to Tender for..." required />
@@ -300,12 +345,7 @@ function TendersTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) 
             </div>
             <div className="space-y-1">
               <Label htmlFor="tender-status">Status</Label>
-              <select
-                id="tender-status"
-                value={form.status}
-                onChange={e => setForm(p => ({ ...p, status: e.target.value }))}
-                className="w-full border rounded-md px-3 py-2 text-sm bg-background"
-              >
+              <select id="tender-status" value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))} className="w-full border rounded-md px-3 py-2 text-sm bg-background">
                 <option>Open</option>
                 <option>Closed</option>
               </select>
@@ -326,50 +366,29 @@ function TendersTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) 
               <div className="space-y-1 flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-medium text-sm">{tender.title}</p>
-                  <Badge variant={tender.status === "Open" ? "default" : "secondary"} className="text-xs shrink-0">
-                    {tender.status}
-                  </Badge>
+                  <Badge variant={tender.status === "Open" ? "default" : "secondary"} className="text-xs shrink-0">{tender.status}</Badge>
                 </div>
                 {tender.description && <p className="text-xs text-muted-foreground">{tender.description}</p>}
                 <p className="text-xs text-muted-foreground">Deadline: {new Date(tender.deadline).toLocaleDateString()}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
-                onClick={() => deleteMutation.mutate(tender.id)}
-                disabled={deleteMutation.isPending}
-              >
+              <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => deleteMutation.mutate(tender.id)} disabled={deleteMutation.isPending}>
                 <Trash2 className="h-4 w-4" />
               </Button>
             </CardContent>
           </Card>
         ))}
-        {!isLoading && tendersList?.length === 0 && (
-          <p className="text-muted-foreground text-sm py-4 text-center">No tenders posted yet.</p>
-        )}
+        {!isLoading && tendersList?.length === 0 && <p className="text-muted-foreground text-sm py-4 text-center">No tenders posted yet.</p>}
       </div>
     </div>
   );
 }
 
 function JobsTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
-  const [form, setForm] = useState({
-    title: "",
-    department: "",
-    type: "Full-time",
-    description: "",
-    requirements: "",
-    deadline: "",
-    isActive: true,
-  });
+  const [form, setForm] = useState({ title: "", department: "", type: "Full-time", description: "", requirements: "", deadline: "", isActive: true });
   const { data: jobs, isLoading } = useQuery<JobPosting[]>({ queryKey: ["/api/job-postings"] });
 
   const createMutation = useMutation({
-    mutationFn: (data: typeof form) => apiRequest("POST", "/api/job-postings", {
-      ...data,
-      deadline: new Date(data.deadline),
-    }),
+    mutationFn: (data: typeof form) => apiRequest("POST", "/api/job-postings", { ...data, deadline: new Date(data.deadline) }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/job-postings"] });
       setForm({ title: "", department: "", type: "Full-time", description: "", requirements: "", deadline: "", isActive: true });
@@ -391,7 +410,7 @@ function JobsTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
       <Card className="lg:col-span-2 bg-white border-0 shadow-sm h-fit">
         <CardHeader><CardTitle className="text-base flex items-center gap-2"><Plus className="h-4 w-4" /> Post Job Vacancy</CardTitle></CardHeader>
         <CardContent>
-          <form onSubmit={(e) => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
+          <form onSubmit={e => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="job-title">Job Title</Label>
               <Input id="job-title" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} placeholder="e.g. Lecturer – Computing" required />
@@ -402,12 +421,7 @@ function JobsTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
             </div>
             <div className="space-y-1">
               <Label htmlFor="job-type">Employment Type</Label>
-              <select
-                id="job-type"
-                value={form.type}
-                onChange={e => setForm(p => ({ ...p, type: e.target.value }))}
-                className="w-full border rounded-md px-3 py-2 text-sm bg-background"
-              >
+              <select id="job-type" value={form.type} onChange={e => setForm(p => ({ ...p, type: e.target.value }))} className="w-full border rounded-md px-3 py-2 text-sm bg-background">
                 <option>Full-time</option>
                 <option>Part-time</option>
                 <option>Contract</option>
@@ -448,21 +462,13 @@ function JobsTab({ toast }: { toast: ReturnType<typeof useToast>["toast"] }) {
                 <p className="text-xs text-muted-foreground line-clamp-1">{job.description}</p>
                 <p className="text-xs text-muted-foreground">Deadline: {new Date(job.deadline).toLocaleDateString()}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0"
-                onClick={() => deleteMutation.mutate(job.id)}
-                disabled={deleteMutation.isPending}
-              >
+              <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => deleteMutation.mutate(job.id)} disabled={deleteMutation.isPending}>
                 <Trash2 className="h-4 w-4" />
               </Button>
             </CardContent>
           </Card>
         ))}
-        {!isLoading && jobs?.length === 0 && (
-          <p className="text-muted-foreground text-sm py-4 text-center">No job postings yet. Post a vacancy above.</p>
-        )}
+        {!isLoading && jobs?.length === 0 && <p className="text-muted-foreground text-sm py-4 text-center">No job postings yet. Post a vacancy above.</p>}
       </div>
     </div>
   );

@@ -5,6 +5,12 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 
+declare module "express-session" {
+  interface SessionData {
+    isAdmin: boolean;
+  }
+}
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -146,6 +152,29 @@ export async function registerRoutes(
   app.delete("/api/job-postings/:id", async (req, res) => {
     await storage.deleteJobPosting(Number(req.params.id));
     res.status(204).end();
+  });
+
+  // Admin Auth (simple username/password)
+  app.get("/api/admin/me", (req, res) => {
+    res.json({ isAdmin: !!req.session.isAdmin });
+  });
+
+  app.post("/api/admin/login", (req, res) => {
+    const { username, password } = req.body;
+    const adminUsername = process.env.ADMIN_USERNAME || "admin";
+    const adminPassword = process.env.ADMIN_PASSWORD || "btti2024";
+
+    if (username === adminUsername && password === adminPassword) {
+      req.session.isAdmin = true;
+      res.json({ success: true });
+    } else {
+      res.status(401).json({ message: "Invalid username or password." });
+    }
+  });
+
+  app.post("/api/admin/logout", (req, res) => {
+    req.session.isAdmin = false;
+    res.json({ success: true });
   });
 
   // Seed Data
